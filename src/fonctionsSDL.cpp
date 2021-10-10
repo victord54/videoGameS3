@@ -51,6 +51,29 @@ SDL_Texture* load_image(const char* path, SDL_Renderer* renderer) {
     return texture;
 }
 
+SDL_Texture* load_transparent_image(const char *path, SDL_Renderer *renderer, Uint8 r, Uint8 g, Uint8 b) {
+    SDL_Surface *surfaceTmp = nullptr;
+    SDL_Texture *texture = nullptr;
+    surfaceTmp = SDL_LoadBMP(path);
+
+    if (surfaceTmp == nullptr) {
+        std::cerr << "Erreur chargement image BMP : " << SDL_GetError() << std::endl;
+		SDL_Quit();
+        exit(1);
+    }
+
+    SDL_SetColorKey(surfaceTmp, SDL_TRUE, SDL_MapRGB(surfaceTmp->format, r, g, b));
+    texture = SDL_CreateTextureFromSurface(renderer, surfaceTmp);
+    SDL_FreeSurface(surfaceTmp);
+
+    if (texture == nullptr) {
+        fprintf(stderr, "Erreur pendant creation de la texture liee a l'image chargee: %s", SDL_GetError());
+        return NULL;
+    }
+
+    return texture;
+}
+
 void apply_texture(SDL_Texture *texture, SDL_Renderer *renderer, int x, int y){
     SDL_Rect dst = {0, 0, 0, 0};
     
@@ -59,4 +82,26 @@ void apply_texture(SDL_Texture *texture, SDL_Renderer *renderer, int x, int y){
     
     SDL_RenderCopy(renderer, texture, NULL, &dst);
     
+}
+
+void apply_tab_texture(SDL_Texture *texture, SDL_Renderer *renderer, int n) {
+
+    SDL_Rect SrcR_sprite[6];
+    SDL_Rect srcWH = {0, 0, 0, 0};
+    SDL_QueryTexture(texture, nullptr, nullptr, &srcWH.w, &srcWH.h);
+    srcWH.w /= 3;
+    srcWH.h /= 2;
+    
+
+    SDL_Rect DestR_sprite[6];
+    SDL_Rect dstWH = {0, 0, 0, 0};
+    SDL_QueryTexture(texture, nullptr, nullptr, &dstWH.w, &dstWH.h);
+    for (int i=0; i<6; i++) {
+        DestR_sprite[i].x = i > 2 ? 60*(i+1)+100 : 60*(i+1);
+        DestR_sprite[i].y = i > 2 ? 60 : 120;
+        DestR_sprite[i].w = dstWH.w; // Largeur du sprite
+        DestR_sprite[i].h = dstWH.h; // Hauteur du sprite
+    }
+
+     SDL_RenderCopy(renderer, texture, NULL, &DestR_sprite[n]);
 }
