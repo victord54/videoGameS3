@@ -1,14 +1,14 @@
 # videoGameS3
 Video game development project for the C/C++ advanced programming course
 
-## Installation avec SDL2
+## Clone with SDL2 version
 ```sh
 git clone https://github.com/victord54/videoGameS3.git &&
 cd videoGameS3 &&
 mkdir build &&
 make
 ```
-## Installation avec SFML
+## Clone with SFML version (the best version)
 ```sh
 git clone https://github.com/victord54/videoGameS3.git &&
 cd videoGameS3 &&
