@@ -13,6 +13,7 @@ int main() {
     app.setFramerateLimit(60);
     int ballSpeed = 2;
     int n = 0;
+    bool direction = false;
 
     Clock clock;
     float sec;
@@ -59,12 +60,25 @@ int main() {
             ball.move(5, 0);
         else
             ball.setTexture(t2);
-        if (Keyboard::isKeyPressed(Keyboard::Z) || Keyboard::isKeyPressed(Keyboard::S) || Keyboard::isKeyPressed(Keyboard::Q) || Keyboard::isKeyPressed(Keyboard::D)) { // Expérimental ne marche pas bcp^^
+        if (Keyboard::isKeyPressed(Keyboard::D)) { // Expérimental ne marche pas bcp^^
             if (n%30 == 0)
                 ball.setTexture(t1);
             else if (n%15 == 0)
                 ball.setTexture(t3);
+            direction = false;
         }
+        else if (Keyboard::isKeyPressed(Keyboard::Q)) { // Expérimental ne marche pas bcp^^
+            if (n%30 == 0)
+                ball.setTexture(t1);
+            else if (n%15 == 0)
+                ball.setTexture(t3);
+            direction = true;
+        }
+
+        if (direction)
+            ball.scale(-1, 1);
+        else
+            ball.scale(-1, 1);
 
         /*                      Idée
          * Ce qu'il faudrait c'est avec un booléen, tant qu'on appuie sur la touche,
