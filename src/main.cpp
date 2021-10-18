@@ -13,7 +13,8 @@ int main() {
     app.setFramerateLimit(60);
     int ballSpeed = 2;
     int n = 0;
-    bool direction = false;
+    bool deplacementG = false;
+    bool deplacementGEncore = false;
 
     Clock clock;
     float sec;
@@ -50,35 +51,45 @@ int main() {
                 app.close();
         }
 
-        if (Keyboard::isKeyPressed(Keyboard::Z))
+        if (Keyboard::isKeyPressed(Keyboard::Z)) {
             ball.move(0, -5);
-        if (Keyboard::isKeyPressed(Keyboard::S))
+            if (n%30 == 0)
+                ball.setTexture(t1);
+            else if (n%15 == 0)
+                ball.setTexture(t3);
+        }
+        if (Keyboard::isKeyPressed(Keyboard::S)) {
             ball.move(0, 5);
-        if (Keyboard::isKeyPressed(Keyboard::Q))
-            ball.move(-5, 0);
-        if (Keyboard::isKeyPressed(Keyboard::D))
+            if (n%30 == 0)
+                ball.setTexture(t1);
+            else if (n%15 == 0)
+                ball.setTexture(t3);
+        }
+        if (Keyboard::isKeyPressed(Keyboard::D)) {
             ball.move(5, 0);
-        else
+            if (n%30 == 0)
+                ball.setTexture(t1);
+            else if (n%15 == 0)
+                ball.setTexture(t3);
+        }
+        if (Keyboard::isKeyPressed(Keyboard::Q)) {
+            ball.move(-5, 0);
+            if (n%30 == 0)
+                ball.setTexture(t1);
+            else if (n%15 == 0)
+                ball.setTexture(t3);
+        }
+        if (!(Keyboard::isKeyPressed(Keyboard::Z) || Keyboard::isKeyPressed(Keyboard::S) || Keyboard::isKeyPressed(Keyboard::Q) || Keyboard::isKeyPressed(Keyboard::D)))
             ball.setTexture(t2);
-        if (Keyboard::isKeyPressed(Keyboard::D)) { // Expérimental ne marche pas bcp^^
-            if (n%30 == 0)
-                ball.setTexture(t1);
-            else if (n%15 == 0)
-                ball.setTexture(t3);
-            direction = false;
+        if (Keyboard::isKeyPressed(Keyboard::Q) && !deplacementGEncore) {
+            deplacementG = true;
+            deplacementGEncore = true;
         }
-        else if (Keyboard::isKeyPressed(Keyboard::Q)) { // Expérimental ne marche pas bcp^^
-            if (n%30 == 0)
-                ball.setTexture(t1);
-            else if (n%15 == 0)
-                ball.setTexture(t3);
-            direction = true;
+        
+        if (deplacementG && deplacementGEncore) {
+            ball.scale(-1, 1); // A voir pour que ça marche (ou trouver une méthode pour éviter que le sprite se retourne à l'infini quand on appuie sur 'G')
+            deplacementGEncore = false;
         }
-
-        if (direction)
-            ball.scale(-1, 1);
-        else
-            ball.scale(-1, 1);
 
         /*                      Idée
          * Ce qu'il faudrait c'est avec un booléen, tant qu'on appuie sur la touche,
