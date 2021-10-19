@@ -30,13 +30,17 @@ int main() {
 
 
 
-    Texture t1, t2, t3;
+    Texture t1, t2, t3, t1R, t2R, t3R;
     t1.loadFromFile("ressources/sprite.png", tabRect[0]);
     t2.loadFromFile("ressources/sprite.png", tabRect[1]);
     t3.loadFromFile("ressources/sprite.png", tabRect[2]);
 
-    Sprite ball;
-    ball.setPosition(100, 100);
+    t1R.loadFromFile("ressources/sprite.png", tabRect[0]);
+    t2R.loadFromFile("ressources/sprite.png", tabRect[1]);
+    t3R.loadFromFile("ressources/sprite.png", tabRect[2]);
+
+    Sprite player;
+    player.setPosition(100, 100);
 
     float dx = ballSpeed, dy = ballSpeed;
     // on fait tourner le programme jusqu'à ce que la fenêtre soit fermée
@@ -52,44 +56,51 @@ int main() {
         }
 
         if (Keyboard::isKeyPressed(Keyboard::Z)) {
-            ball.move(0, -5);
+            player.move(0, -5);
             if (n%30 == 0)
-                ball.setTexture(t1);
+                player.setTexture(t1);
             else if (n%15 == 0)
-                ball.setTexture(t3);
+                player.setTexture(t3);
         }
         if (Keyboard::isKeyPressed(Keyboard::S)) {
-            ball.move(0, 5);
+            player.move(0, 5);
             if (n%30 == 0)
-                ball.setTexture(t1);
+                player.setTexture(t1);
             else if (n%15 == 0)
-                ball.setTexture(t3);
+                player.setTexture(t3);
         }
         if (Keyboard::isKeyPressed(Keyboard::D)) {
-            ball.move(5, 0);
+            player.move(5, 0);
             if (n%30 == 0)
-                ball.setTexture(t1);
+                player.setTexture(t1);
             else if (n%15 == 0)
-                ball.setTexture(t3);
+                player.setTexture(t3);
         }
         if (Keyboard::isKeyPressed(Keyboard::Q)) {
-            ball.move(-5, 0);
+            player.move(-5, 0);
             if (n%30 == 0)
-                ball.setTexture(t1);
+                player.setTexture(t1);
             else if (n%15 == 0)
-                ball.setTexture(t3);
+                player.setTexture(t3);
         }
         if (!(Keyboard::isKeyPressed(Keyboard::Z) || Keyboard::isKeyPressed(Keyboard::S) || Keyboard::isKeyPressed(Keyboard::Q) || Keyboard::isKeyPressed(Keyboard::D)))
-            ball.setTexture(t2);
-        if (Keyboard::isKeyPressed(Keyboard::Q) && !deplacementGEncore) {
-            deplacementG = true;
-            deplacementGEncore = true;
+            player.setTexture(t2);
+        if (Keyboard::isKeyPressed(Keyboard::Q)) {
+            if (deplacementG == false) {
+                player.scale(-1, 1);
+                player.move(SPRITE_X/3, 0);
+                deplacementG = true;
+            }
         }
+        if (Keyboard::isKeyPressed(Keyboard::D)) {
+            if (deplacementG == true) {
+                player.scale(-1, 1);
+                player.move(-SPRITE_X/3, 0);
+                deplacementG = false;
+            }
+        }
+
         
-        if (deplacementG && deplacementGEncore) {
-            ball.scale(-1, 1); // A voir pour que ça marche (ou trouver une méthode pour éviter que le sprite se retourne à l'infini quand on appuie sur 'G')
-            deplacementGEncore = false;
-        }
 
         /*                      Idée
          * Ce qu'il faudrait c'est avec un booléen, tant qu'on appuie sur la touche,
@@ -97,17 +108,8 @@ int main() {
          * et surtout on fait un bool pour que si il se déplace à gauche on flip l'image avec scale(-1, 1)
          */
 
-        // ball.move(dx, dy);
-        // Vector2f b = ball.getPosition();
-        // if (b.x < 0 || b.x > 800 - SPRITE_X/3) {
-        //     dx = -dx;
-        //     ball.scale(-1, 1); // A optimiser
-        // }
-        // if (b.y < 0 || b.y > 600 - SPRITE_Y/2)
-        //     dy = -dy;
-
         app.clear();
-        app.draw(ball);
+        app.draw(player);
         app.display();
 
         elapsed = clock.getElapsedTime();
