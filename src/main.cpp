@@ -56,28 +56,32 @@ int main() {
         }
 
         if (Keyboard::isKeyPressed(Keyboard::Z)) {
-            player.move(0, -5);
+            if (player.getPosition().y > 0)
+                player.move(0, -5);
             if (n%30 == 0)
                 player.setTexture(t1);
             else if (n%15 == 0)
                 player.setTexture(t3);
         }
         if (Keyboard::isKeyPressed(Keyboard::S)) {
-            player.move(0, 5);
+            if (player.getPosition().y + SPRITE_Y/2 < 600)
+                player.move(0, 5);
             if (n%30 == 0)
                 player.setTexture(t1);
             else if (n%15 == 0)
                 player.setTexture(t3);
         }
         if (Keyboard::isKeyPressed(Keyboard::D)) {
-            player.move(5, 0);
+            if (player.getPosition().x + SPRITE_X/3 < 800)
+                player.move(5, 0);
             if (n%30 == 0)
                 player.setTexture(t1);
             else if (n%15 == 0)
                 player.setTexture(t3);
         }
         if (Keyboard::isKeyPressed(Keyboard::Q)) {
-            player.move(-5, 0);
+            if (player.getPosition().x > SPRITE_X/3)
+                player.move(-5, 0);
             if (n%30 == 0)
                 player.setTexture(t1);
             else if (n%15 == 0)
@@ -99,14 +103,6 @@ int main() {
                 deplacementG = false;
             }
         }
-
-        
-
-        /*                      Idée
-         * Ce qu'il faudrait c'est avec un booléen, tant qu'on appuie sur la touche,
-         * on définit la texture avec t1 et t3 à intervalle régulier (n%30) et (n%15)
-         * et surtout on fait un bool pour que si il se déplace à gauche on flip l'image avec scale(-1, 1)
-         */
 
         app.clear();
         app.draw(player);
