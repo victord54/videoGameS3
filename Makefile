@@ -1,8 +1,7 @@
 CC = g++
 CFLAGS = -W -Wall -ansi -g
 LIBS =
-LDFLAGS = `sdl2-config --cflags --libs`
-
+LDFLAGS = -lsfml-graphics -lsfml-window -lsfml-system
 
 SRCDIR = src
 BUILDDIR = build
@@ -10,7 +9,7 @@ BUILDDIR = build
 SRCS = $(shell find $(SRCDIR) -name *.cpp)
 OBJS = $(SRCS:%.c=$(BUILDDIR)/%.o)
 
-EXEC = main
+EXEC = sfml-app
 
 play: $(EXEC)
 	./$(BUILDDIR)/$<

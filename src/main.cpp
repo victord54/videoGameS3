@@ -1,33 +1,122 @@
-#include <SDL2/SDL.h>
-#include <iostream>
 #include <cstdlib>
+#include <iostream>
+#include <SFML/Graphics.hpp> 
 
-#include "fonctionsSDL.hpp"
-#include "defines.hpp"
+#define SPRITE_X 285
+#define SPRITE_Y 250
 
+using namespace sf;
+using namespace std;
 
 int main() {
-    SDL_Window *window = nullptr; // Déclaration de la fenêtre
-	SDL_Renderer *renderer = nullptr; // Déclaration du rendu
+    RenderWindow app(VideoMode(800, 600), "My window");
+    app.setFramerateLimit(60);
+    int ballSpeed = 2;
+    int n = 0;
+    bool deplacementG = false;
+    bool deplacementGEncore = false;
 
-    init(&window, &renderer);
+    Clock clock;
+    float sec;
+    Time elapsed;
+    Time elapsedR;
 
-    // Chargement de l'image
-    SDL_Texture *background = load_image("support/fond.bmp", renderer);
-    // SDL_Texture *obj = load_image("support/obj.bmp", renderer);
-    SDL_Texture *obj = load_transparent_image("support/obj.bmp", renderer, 255, 255, 255);
+    elapsedR = seconds(5.);
 
-    SDL_Texture *player = load_transparent_image("support/sprites.bmp", renderer, 0, 255, 255);
+    IntRect tabRect[3];
+    for (int i = 0; i < 3; i++) {
+        tabRect[i] = IntRect(SPRITE_X*i/3, 0, SPRITE_X/3, SPRITE_Y/2);
+    }
 
-    SDL_RenderClear(renderer);
-    apply_texture(background, renderer, 0, 0);
-    apply_texture(obj, renderer, 30, 30);
-    apply_tab_texture(player, renderer, 0);
 
-    SDL_RenderPresent(renderer);
 
-    
-    SDL_Delay(2000);
-    SDL_DestroyTexture(background);
-    quit(renderer, window);
+    Texture t1, t2, t3, t1R, t2R, t3R;
+    t1.loadFromFile("ressources/sprite.png", tabRect[0]);
+    t2.loadFromFile("ressources/sprite.png", tabRect[1]);
+    t3.loadFromFile("ressources/sprite.png", tabRect[2]);
+
+    t1R.loadFromFile("ressources/sprite.png", tabRect[0]);
+    t2R.loadFromFile("ressources/sprite.png", tabRect[1]);
+    t3R.loadFromFile("ressources/sprite.png", tabRect[2]);
+
+    Sprite player;
+    player.setPosition(100, 100);
+
+    float dx = ballSpeed, dy = ballSpeed;
+    // on fait tourner le programme jusqu'à ce que la fenêtre soit fermée
+    while (app.isOpen()) {
+        // on inspecte tous les évènements de la fenêtre qui ont été émis depuis la précédente itération
+        Event event;
+        while (app.pollEvent(event)) {
+            // évènement "fermeture demandée" : on ferme la fenêtre
+            if (event.type == Event::Closed)
+                app.close();
+            if (Keyboard::isKeyPressed(Keyboard::Escape))
+                app.close();
+        }
+
+        if (Keyboard::isKeyPressed(Keyboard::Z)) {
+            if (player.getPosition().y > 0)
+                player.move(0, -5);
+            if (n%30 == 0)
+                player.setTexture(t1);
+            else if (n%15 == 0)
+                player.setTexture(t3);
+        }
+        if (Keyboard::isKeyPressed(Keyboard::S)) {
+            if (player.getPosition().y + SPRITE_Y/2 < 600)
+                player.move(0, 5);
+            if (n%30 == 0)
+                player.setTexture(t1);
+            else if (n%15 == 0)
+                player.setTexture(t3);
+        }
+        if (Keyboard::isKeyPressed(Keyboard::D)) {
+            if (player.getPosition().x + SPRITE_X/3 < 800)
+                player.move(5, 0);
+            if (n%30 == 0)
+                player.setTexture(t1);
+            else if (n%15 == 0)
+                player.setTexture(t3);
+        }
+        if (Keyboard::isKeyPressed(Keyboard::Q)) {
+            if (player.getPosition().x > SPRITE_X/3)
+                player.move(-5, 0);
+            if (n%30 == 0)
+                player.setTexture(t1);
+            else if (n%15 == 0)
+                player.setTexture(t3);
+        }
+        if (!(Keyboard::isKeyPressed(Keyboard::Z) || Keyboard::isKeyPressed(Keyboard::S) || Keyboard::isKeyPressed(Keyboard::Q) || Keyboard::isKeyPressed(Keyboard::D)))
+            player.setTexture(t2);
+        if (Keyboard::isKeyPressed(Keyboard::Q)) {
+            if (deplacementG == false) {
+                player.scale(-1, 1);
+                player.move(SPRITE_X/3, 0);
+                deplacementG = true;
+            }
+        }
+        if (Keyboard::isKeyPressed(Keyboard::D)) {
+            if (deplacementG == true) {
+                player.scale(-1, 1);
+                player.move(-SPRITE_X/3, 0);
+                deplacementG = false;
+            }
+        }
+
+        app.clear();
+        app.draw(player);
+        app.display();
+
+        elapsed = clock.getElapsedTime();
+
+        if (elapsed > elapsedR) {
+            clock.restart();
+	    cout << "5 sec se sont écoulées" << endl;
+        }
+
+        n++;
+    }
+
+    return 0;
 }
