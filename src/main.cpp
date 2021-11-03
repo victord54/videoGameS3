@@ -14,7 +14,7 @@ int main() {
     RenderWindow app(VideoMode(800, 600), "Brick Breaker");
     app.setFramerateLimit(60);
 
-    Player player = Player("ressources/blob.bmp", 250, 250);
+    Player player = Player("ressources/brickBreaker_sprites.png", 250, 250);
 
     // on fait tourner le programme jusqu'à ce que la fenêtre soit fermée
     while (app.isOpen()) {
