@@ -1,34 +1,57 @@
+#ifndef PLAYER_HPP
+#define PLAYER_HPP
 #include <SFML/Graphics.hpp>
+#include "define.hpp"
 
 class Player {
     private:
         int spriteW;
         int spriteH;
 
-        double x;
-        double y;
+        int x;
+        int y;
 
+        sf::IntRect playerRect;
         sf::Texture texture;
         sf::Sprite sprite;
 
     public:
         Player(const std::string filename, int coordX, int coordY) {
-            spriteW = 64;
-            spriteH = 16;
+            spriteW = 96;
+            spriteH = 23;
 
             x = coordX;
             y = coordY;
 
-            texture.loadFromFile(filename);
+            playerRect = {0, 200, spriteW, spriteH};
+
+            texture.loadFromFile(filename, playerRect);
             setPosition();
+        }
+
+        int getX() {
+            return x;
+        }
+
+        int getY() {
+            return y;
+        }
+
+        int getW() {
+            return spriteW;
+        }
+
+        int getH() {
+            return spriteH;
         }
 
         void setPosition() {
             sprite.setPosition(x, y);
         }
 
-        void moveX(double mX) {
+        void moveX(int mX) {
             sprite.move(mX, 0);
+            x += mX;
         }
 
         void draw(sf::RenderWindow &app) {
@@ -46,10 +69,19 @@ class Player {
                     app.close();
             }
 
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
-                moveX(-3);
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-                moveX(3);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+                if (x > 0)
+                   moveX(-PLAYER_SPEED);
+                printf("player.x = %d\nplayer.y = %d\n", x, y);
+            }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+                if (x + spriteW < WINDOW_X)
+                    moveX(PLAYER_SPEED);
+                printf("player.x = %d\nplayer.y = %d\n", x, y);
+            }
+            sf::Vector2i coords = sf::Mouse::getPosition();
         }
 
 };
+
+#endif
