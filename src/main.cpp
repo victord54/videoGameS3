@@ -18,8 +18,8 @@ int main() {
     // on fait tourner le programme jusqu'à ce que la fenêtre soit fermée
     while (app.isOpen()) {
         player.handleMoves(app);
-        // ball.handleMoves(app);
-        ball.moving();
+        ball.handleKeyboard(app);
+        ball.moving(player);
         app.clear();
         player.draw(app);
         ball.draw(app);

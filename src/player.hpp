@@ -14,9 +14,6 @@ class Player {
         int spriteW;
         int spriteH;
 
-        int x;
-        int y;
-
         sf::IntRect playerRect;
         sf::Texture texture;
         sf::Sprite sprite;
@@ -26,21 +23,19 @@ class Player {
             spriteW = 96;
             spriteH = 23;
 
-            x = coordX;
-            y = coordY;
+            sprite.setPosition(coordX, coordY);
 
             playerRect = {0, 200, spriteW, spriteH};
 
             texture.loadFromFile(filename, playerRect);
-            setPosition();
         }
 
         int getX() {
-            return x;
+            return sprite.getPosition().x;
         }
 
         int getY() {
-            return y;
+            return sprite.getPosition().y;
         }
 
         int getW() {
@@ -51,13 +46,8 @@ class Player {
             return spriteH;
         }
 
-        void setPosition() {
-            sprite.setPosition(x, y);
-        }
-
         void moveX(int mX) {
             sprite.move(mX, 0);
-            x += mX;
         }
 
         void draw(sf::RenderWindow &app) {
@@ -76,14 +66,14 @@ class Player {
             }
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-                if (x > 0)
+                if (getX() > 0)
                    moveX(-PLAYER_SPEED);
-                printf("player.x = %d\nplayer.y = %d\n", x, y);
+                printf("player.x = %d\nplayer.y = %d\n", getX(), getY());
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-                if (x + spriteW < WINDOW_X)
+                if (getX() + spriteW < WINDOW_X)
                     moveX(PLAYER_SPEED);
-                printf("player.x = %d\nplayer.y = %d\n", x, y);
+                printf("player.x = %d\nplayer.y = %d\n", getX(), getY());
             }
             sf::Vector2i coords = sf::Mouse::getPosition();
         }

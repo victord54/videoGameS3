@@ -16,11 +16,10 @@ class Ball {
         int spriteW;
         int spriteH;
 
-        int x;
-        int y;
-
         int dx;
         int dy;
+
+        bool move;
 
         sf::IntRect playerRect;
         sf::Texture texture;
@@ -31,25 +30,23 @@ class Ball {
             spriteW = 16;
             spriteH = 16;
 
-            x = player.getX() + player.getW()/2;
-            y = player.getY() - spriteH;
-
             dx = BALL_SPEED_X;
-            dy = BALL_SPEED_Y;
+            dy = -BALL_SPEED_Y;
+
+            move = false;
 
             playerRect = {160, 200, spriteW, spriteH};
 
 
             texture.loadFromFile(filename, playerRect);
-            setPosition();
         }
 
         int getX() {
-            return x;
+            return sprite.getPosition().x;
         }
 
         int getY() {
-            return y;
+            return sprite.getPosition().y;
         }
 
         int getDX() {
@@ -60,6 +57,10 @@ class Ball {
             return dy;
         }
 
+        bool isMoving() {
+            return move;
+        }
+
         void setDX(int x) {
             dx = x;
         }
@@ -68,8 +69,8 @@ class Ball {
             dy = y;
         }
 
-        void setPosition() {
-            sprite.setPosition(x, y);
+        void setMoving(bool b) {
+            move = b;
         }
 
         void draw(sf::RenderWindow &app) {
@@ -77,23 +78,28 @@ class Ball {
             app.draw(sprite);
         }
 
-        void moving() {
-            sprite.move(dx, dy);
+        void moving(Player &player) {
+            if (isMoving() == true) {
+                sprite.move(dx, dy);
 
-            if (sprite.getPosition().x < 0 || sprite.getPosition().x + spriteW > WINDOW_X)
-                setDX(-dx);
-            if (sprite.getPosition().y < 0 || sprite.getPosition().y + spriteH > WINDOW_Y)
-                setDY(-dy);
+                if (sprite.getPosition().x < 0 || sprite.getPosition().x + spriteW > WINDOW_X)
+                    setDX(-dx);
+                if (sprite.getPosition().y < 0 || sprite.getPosition().y + spriteH > WINDOW_Y)
+                    setDY(-dy);
+            }
+            else
+                sprite.setPosition(player.getX() + player.getW()/2 - 6, player.getY() - player.getH()/2 - 4);
         }
 
-        void handleMoves(sf::RenderWindow &app) {
+        void handleKeyboard(sf::RenderWindow &app) {
             sf::Event event;
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-                moving();
+                setMoving(true);
 
             sf::Vector2i coords = sf::Mouse::getPosition();
         }
+
 };
 
 #endif
