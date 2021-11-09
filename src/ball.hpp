@@ -57,6 +57,14 @@ class Ball {
             return dy;
         }
 
+        int getW() {
+            return spriteW;
+        }
+
+        int getH() {
+            return spriteH;
+        }
+
         bool isMoving() {
             return move;
         }
@@ -81,11 +89,7 @@ class Ball {
         void moving(Player &player) {
             if (isMoving() == true) {
                 sprite.move(dx, dy);
-
-                if (sprite.getPosition().x < 0 || sprite.getPosition().x + spriteW > WINDOW_X)
-                    setDX(-dx);
-                if (sprite.getPosition().y < 0 || sprite.getPosition().y + spriteH > WINDOW_Y)
-                    setDY(-dy);
+                collision(player);
             }
             else
                 sprite.setPosition(player.getX() + player.getW()/2 - 6, player.getY() - player.getH()/2 - 4);
@@ -96,8 +100,20 @@ class Ball {
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
                 setMoving(true);
+        }
 
-            sf::Vector2i coords = sf::Mouse::getPosition();
+        void collision(Player &player) {
+            // Collision avec les murs
+            if (sprite.getPosition().x < 0 || sprite.getPosition().x + spriteW > WINDOW_X)
+                setDX(-dx);
+            if (sprite.getPosition().y < 0 || sprite.getPosition().y + spriteH > WINDOW_Y)
+                setDY(-dy);
+            
+            // Collision avec la plateforme (player)
+            if (getX() >= player.getX() && getX() <= player.getX() + player.getW()) {
+                if (getY() >= player.getY() - player.getH()/2)
+                    setDY(-dy);
+            }
         }
 
 };

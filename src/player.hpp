@@ -14,6 +14,8 @@ class Player {
         int spriteW;
         int spriteH;
 
+        bool deplacementSouris;
+
         sf::IntRect playerRect;
         sf::Texture texture;
         sf::Sprite sprite;
@@ -22,6 +24,8 @@ class Player {
         Player(const std::string filename, int coordX, int coordY) {
             spriteW = 96;
             spriteH = 23;
+
+            deplacementSouris = false;
 
             sprite.setPosition(coordX, coordY);
 
@@ -46,8 +50,16 @@ class Player {
             return spriteH;
         }
 
-        void teleportX(int mx){
-            sprite.setPosition(20,0);
+        bool isSouris() {
+            return deplacementSouris;
+        }
+
+        void setX(int mx){
+            sprite.setPosition(mx,getY());
+        }
+
+        void setDeplacementSouris(bool b) {
+            deplacementSouris = b;
         }
         
         void moveX(int mX) {
@@ -65,25 +77,35 @@ class Player {
                 // évènement "fermeture demandée" : on ferme la fenêtre
                 if (event.type == sf::Event::Closed)
                     app.close();
+                
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
                     app.close();
+                
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::M))
+                    setDeplacementSouris(true);
+
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::K))
+                    setDeplacementSouris(false);
             }
 
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-                if (getX() > 0)
-                   moveX(-PLAYER_SPEED);
-                printf("player.x = %d\nplayer.y = %d\n", getX(), getY());
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+                moveX(-PLAYER_SPEED);
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+                moveX(PLAYER_SPEED);
+            
+            if (isSouris() == true) {
+                sf::Vector2i coords = sf::Mouse::getPosition(app);
+                setX(coords.x);
             }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-                if (getX() + spriteW < WINDOW_X - 3 )
-                    moveX(PLAYER_SPEED);
-                printf("player.x = %d\nplayer.y = %d\n", getX(), getY());
-            }
-            sf::Vector2i coords = sf::Mouse::getPosition(app);
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::F)) {
-                if (getX() + spriteW < WINDOW_X - 3 )
-                    teleportX(100);
-                printf("player.x = %d\nplayer.y = %d\n", getX(), getY());}        
+            
+            if (getX() < 0)
+                setX(0);
+            
+            if (getX() + spriteW > WINDOW_X)
+                setX(WINDOW_X - spriteW);
+
+            printf("player.x = %d\nplayer.y = %d\n", getX(), getY());
         }
 
 };
