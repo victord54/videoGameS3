@@ -3,12 +3,6 @@
 #include <SFML/Graphics.hpp>
 #include "define.hpp"
 
-/**
- * 
- * Modifier les attributs x et y (delete it) pour les remplacer par seulement des getter avec méthode getPosition() de l'objet Sprite
- * 
- **/
-
 class Player {
     private:
         int spriteW;
