@@ -46,6 +46,10 @@ class Player {
             return spriteH;
         }
 
+        void teleportX(int mx){
+            sprite.setPosition(20,0);
+        }
+        
         void moveX(int mX) {
             sprite.move(mX, 0);
         }
@@ -71,11 +75,15 @@ class Player {
                 printf("player.x = %d\nplayer.y = %d\n", getX(), getY());
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-                if (getX() + spriteW < WINDOW_X)
+                if (getX() + spriteW < WINDOW_X - 3 )
                     moveX(PLAYER_SPEED);
                 printf("player.x = %d\nplayer.y = %d\n", getX(), getY());
             }
-            sf::Vector2i coords = sf::Mouse::getPosition();
+            sf::Vector2i coords = sf::Mouse::getPosition(app);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::F)) {
+                if (getX() + spriteW < WINDOW_X - 3 )
+                    teleportX(100);
+                printf("player.x = %d\nplayer.y = %d\n", getX(), getY());}        
         }
 
 };
