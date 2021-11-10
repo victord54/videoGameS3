@@ -7,8 +7,6 @@
 
 class Ball {
    private:
-        int spriteW;
-        int spriteH;
         int points;
 
         int dx;
@@ -22,16 +20,13 @@ class Ball {
 
     public:    
         Ball(Player &player, const std::string filename) {
-            spriteW = 16;
-            spriteH = 16;
-
             dx = BALL_SPEED_X;
             dy = -BALL_SPEED_Y;
 
             move = false;
             points = 0;
 
-            playerRect = {160, 200, spriteW, spriteH};
+            playerRect = {160, 200, 16, 16};
 
 
             texture.loadFromFile(filename, playerRect); // Test
@@ -54,11 +49,11 @@ class Ball {
         }
 
         int getW() {
-            return spriteW;
+            return sprite.getGlobalBounds().width;
         }
 
         int getH() {
-            return spriteH;
+            return sprite.getGlobalBounds().height;
         }
 
         bool isMoving() {
@@ -100,9 +95,9 @@ class Ball {
 
         void collision(Player &player) {
             // Collision avec les murs
-            if (sprite.getPosition().x < 0 || sprite.getPosition().x + spriteW > WINDOW_X)
+            if (sprite.getPosition().x < 0 || sprite.getPosition().x + getW() > WINDOW_X)
                 setDX(-dx);
-            if (sprite.getPosition().y < 0 || sprite.getPosition().y + spriteH > WINDOW_Y)
+            if (sprite.getPosition().y < 0 || sprite.getPosition().y + getH() > WINDOW_Y)
                 setDY(-dy);
             
             // Collision avec la plateforme (player)
