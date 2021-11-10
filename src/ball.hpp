@@ -93,7 +93,7 @@ class Ball {
 
         void handleKeyboard(sf::RenderWindow &app) {
             sf::Event event;
-
+  
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
                 setMoving(true);
         }

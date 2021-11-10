@@ -2,11 +2,14 @@
 #define PLAYER_HPP
 #include <SFML/Graphics.hpp>
 #include "define.hpp"
+//#include "ball.hpp"
 
 class Player {
     private:
         int spriteW;
         int spriteH;
+
+//        Ball ball;
 
         bool deplacementSouris;
 
@@ -18,6 +21,9 @@ class Player {
         Player(const std::string filename, int coordX, int coordY) {
             spriteW = 96;
             spriteH = 23;
+
+            void* a = this;
+//            ball = Ball(this, "ressources/brickBreaker_sprites.png");
 
             deplacementSouris = false;
 
