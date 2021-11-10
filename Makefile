@@ -31,5 +31,5 @@ $(BUILDDIR)/%.o: %.cpp
 clean:
 	rm -r build/src
 	rm -rf *.o
-mrproper:
-	rm -r build
+mrpropre:
+	rm -r build/*
