@@ -99,7 +99,7 @@ class Player {
             if (getX() + spriteW > WINDOW_X)
                 setX(WINDOW_X - spriteW);
 
-            printf("player.x = %d\nplayer.y = %d\n", getX(), getY());
+            //printf("player.x = %d\nplayer.y = %d\n", getX(), getY());
         }
 
 };

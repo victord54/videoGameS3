@@ -9,6 +9,7 @@ class Ball {
    private:
         int spriteW;
         int spriteH;
+        int points;
 
         int dx;
         int dy;
@@ -28,6 +29,7 @@ class Ball {
             dy = -BALL_SPEED_Y;
 
             move = false;
+            points = 0;
 
             playerRect = {160, 200, spriteW, spriteH};
 
@@ -105,8 +107,15 @@ class Ball {
             
             // Collision avec la plateforme (player)
             if (getX() >= player.getX() && getX() <= player.getX() + player.getW()) {
-                if (getY() >= player.getY() - player.getH()/2)
+                if (getY() >= player.getY() - player.getH()/2){
                     setDY(-dy);
+                    points += 1;
+                    printf("Nombre de points + 1 : %d \n",points);
+                }
+            }
+            if (getY() == WINDOW_Y - 10){
+                points -= 1;
+                printf("Nombre de points - 1 : %d \n",points);
             }
         }
 
