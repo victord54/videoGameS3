@@ -1,7 +1,10 @@
 #ifndef BALL_HPP
 #define BALL_HPP
 
+#include <cstdlib>
+#include <iostream>
 #include <SFML/Graphics.hpp>
+
 #include "player.hpp"
 #include "define.hpp"
 #include "texturesRect.hpp"
@@ -18,8 +21,8 @@ class Ball {
         sf::Texture texture;
         sf::Sprite sprite;
 
-    public:    
-        Ball(Player &player, const std::string filename) {
+    public:
+        Ball() {
             TexturesRect textRect = TexturesRect();
             
             dx = BALL_SPEED_X;
@@ -27,7 +30,7 @@ class Ball {
 
             move = false;
             points = 0;
-            texture.loadFromFile(filename, textRect.getBallRect());
+            texture.loadFromFile("ressources/brickBreaker_sprites.png", textRect.getBallRect());
         }
 
         int getX() {

@@ -10,6 +10,6 @@
 #define PLAYER_SPEED 10
 
 #define BALL_SPEED_X 10
-#define BALL_SPEED_Y 7
+#define BALL_SPEED_Y 8
 
 #endif
