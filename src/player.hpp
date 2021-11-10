@@ -5,9 +5,6 @@
 
 class Player {
     private:
-        int spriteW;
-        int spriteH;
-
         bool deplacementSouris;
 
         sf::IntRect playerRect;
@@ -16,14 +13,12 @@ class Player {
 
     public:
         Player(const std::string filename, int coordX, int coordY) {
-            spriteW = 96;
-            spriteH = 23;
 
             deplacementSouris = false;
 
             sprite.setPosition(coordX, coordY);
 
-            playerRect = {0, 200, spriteW, spriteH};
+            playerRect = {0, 200, 96, 23};
 
             texture.loadFromFile(filename, playerRect);
         }
@@ -37,11 +32,11 @@ class Player {
         }
 
         int getW() {
-            return spriteW;
+            return sprite.getGlobalBounds().width;
         }
 
         int getH() {
-            return spriteH;
+            return sprite.getGlobalBounds().height;
         }
 
         bool isSouris() {
@@ -96,8 +91,8 @@ class Player {
             if (getX() < 0)
                 setX(0);
             
-            if (getX() + spriteW > WINDOW_X)
-                setX(WINDOW_X - spriteW);
+            if (getX() + getW() > WINDOW_X)
+                setX(WINDOW_X - getW());
 
             //printf("player.x = %d\nplayer.y = %d\n", getX(), getY());
         }
