@@ -2,25 +2,22 @@
 #define PLAYER_HPP
 #include <SFML/Graphics.hpp>
 #include "define.hpp"
+#include "texturesRect.hpp"
 
 class Player {
     private:
         bool deplacementSouris;
 
-        sf::IntRect playerRect;
         sf::Texture texture;
         sf::Sprite sprite;
 
     public:
         Player(const std::string filename, int coordX, int coordY) {
+            TexturesRect textRect = TexturesRect();
 
             deplacementSouris = false;
-
             sprite.setPosition(coordX, coordY);
-
-            playerRect = {0, 200, 96, 23};
-
-            texture.loadFromFile(filename, playerRect);
+            texture.loadFromFile(filename, textRect.getPlayerRect());
         }
 
         int getX() {
@@ -41,6 +38,10 @@ class Player {
 
         bool isSouris() {
             return deplacementSouris;
+        }
+
+        sf::Sprite getSprite() {
+            return sprite;
         }
 
         void setX(int mx){

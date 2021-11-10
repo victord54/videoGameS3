@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "player.hpp"
 #include "define.hpp"
+#include "texturesRect.hpp"
 
 class Ball {
    private:
@@ -14,22 +15,19 @@ class Ball {
 
         bool move;
 
-        sf::IntRect playerRect;
         sf::Texture texture;
         sf::Sprite sprite;
 
     public:    
         Ball(Player &player, const std::string filename) {
+            TexturesRect textRect = TexturesRect();
+            
             dx = BALL_SPEED_X;
             dy = -BALL_SPEED_Y;
 
             move = false;
             points = 0;
-
-            playerRect = {160, 200, 16, 16};
-
-
-            texture.loadFromFile(filename, playerRect); // Test
+            texture.loadFromFile(filename, textRect.getBallRect());
         }
 
         int getX() {
@@ -101,12 +99,10 @@ class Ball {
                 setDY(-dy);
             
             // Collision avec la plateforme (player)
-            if (getX() >= player.getX() && getX() <= player.getX() + player.getW()) {
-                if (getY() >= player.getY() - player.getH()/2){
-                    setDY(-dy);
-                    points += 1;
-                    printf("Nombre de points + 1 : %d \n",points);
-                }
+            if (sprite.getGlobalBounds().intersects(player.getSprite().getGlobalBounds())) {
+                setDY(-dy);
+                points += 1;
+                printf("Nombre de points + 1 : %d \n",points);
             }
             //Si la balle touche le bas de l'écran
             if (getY() == WINDOW_Y - 10){
