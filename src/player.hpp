@@ -17,11 +17,6 @@ class Player {
 
     public:
         Player() {
-            TexturesRect textRect = TexturesRect();
-
-            deplacementSouris = false;
-            sprite.setPosition(0, WINDOW_Y-20);
-            texture.loadFromFile("ressources/brickBreaker_sprites.png", textRect.getPlayerRect());
         }
 
         Player(int coordX, int coordY) {
