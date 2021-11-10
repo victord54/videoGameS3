@@ -2,36 +2,23 @@
 #define PLAYER_HPP
 #include <SFML/Graphics.hpp>
 #include "define.hpp"
-//#include "ball.hpp"
+#include "texturesRect.hpp"
 
 class Player {
     private:
-        int spriteW;
-        int spriteH;
-
-//        Ball ball;
-
         bool deplacementSouris;
 
-        sf::IntRect playerRect;
         sf::Texture texture;
         sf::Sprite sprite;
 
     public:
         Player(const std::string filename, int coordX, int coordY) {
-            spriteW = 96;
-            spriteH = 23;
+            TexturesRect textRect = TexturesRect();
 
-            void* a = this;
-//            ball = Ball(this, "ressources/brickBreaker_sprites.png");
 
             deplacementSouris = false;
-
             sprite.setPosition(coordX, coordY);
-
-            playerRect = {0, 200, spriteW, spriteH};
-
-            texture.loadFromFile(filename, playerRect);
+            texture.loadFromFile(filename, textRect.getPlayerRect());
         }
 
         int getX() {
@@ -43,15 +30,19 @@ class Player {
         }
 
         int getW() {
-            return spriteW;
+            return sprite.getGlobalBounds().width;
         }
 
         int getH() {
-            return spriteH;
+            return sprite.getGlobalBounds().height;
         }
 
         bool isSouris() {
             return deplacementSouris;
+        }
+
+        sf::Sprite getSprite() {
+            return sprite;
         }
 
         void setX(int mx){
@@ -102,8 +93,8 @@ class Player {
             if (getX() < 0)
                 setX(0);
             
-            if (getX() + spriteW > WINDOW_X)
-                setX(WINDOW_X - spriteW);
+            if (getX() + getW() > WINDOW_X)
+                setX(WINDOW_X - getW());
 
             //printf("player.x = %d\nplayer.y = %d\n", getX(), getY());
         }
