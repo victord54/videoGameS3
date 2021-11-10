@@ -34,7 +34,7 @@ class Ball {
             playerRect = {160, 200, spriteW, spriteH};
 
 
-            texture.loadFromFile(filename, playerRect);
+            texture.loadFromFile(filename, playerRect); // Test
         }
 
         int getX() {
