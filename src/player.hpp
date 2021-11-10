@@ -1,6 +1,10 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
+
+#include <cstdlib>
+#include <iostream>
 #include <SFML/Graphics.hpp>
+
 #include "define.hpp"
 #include "texturesRect.hpp"
 
@@ -12,13 +16,16 @@ class Player {
         sf::Sprite sprite;
 
     public:
-        Player(const std::string filename, int coordX, int coordY) {
+        Player() {
+        }
+
+        Player(int coordX, int coordY) {
             TexturesRect textRect = TexturesRect();
 
 
             deplacementSouris = false;
             sprite.setPosition(coordX, coordY);
-            texture.loadFromFile(filename, textRect.getPlayerRect());
+            texture.loadFromFile("ressources/brickBreaker_sprites.png", textRect.getPlayerRect());
         }
 
         int getX() {
