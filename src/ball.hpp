@@ -117,6 +117,7 @@ class Ball {
             if (getY() == WINDOW_Y - 10){
                 points -= 1;
                 printf("Nombre de points - 1 : %d \n",points);
+                setMoving(false);
             }
         }
 
