@@ -20,7 +20,6 @@ class TexturesRect {
             brickRect[4] = {160, 0, 32, 32};
             brickRect[5] = {200, 0, 32, 32};
             brickRect[6] = {240, 0, 32, 32};
-            brickRect[7] = {280, 0, 32, 32};
         }
 
         sf::IntRect getPlayerRect() {
