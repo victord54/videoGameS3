@@ -3,43 +3,131 @@
 
 #include <cstdlib>
 #include <iostream>
+#include <string>
 #include <SFML/Graphics.hpp>
 
 #include "define.hpp"
 #include "player.hpp"
 #include "ball.hpp"
+#include "brick.hpp"
 
+/**
+ * @brief Class that manages what is related to the game itself
+ * 
+ */
 class Game {
     private:
-        Player j1;
-        // Player j2;
+        Player players[2];
         Ball balls[5];
+        Brick bricks[250];
     
     public:
+        /**
+         * @brief Construct a new Game object
+         * 
+         */
         Game() {
-            j1 = Player(WINDOW_X-200, WINDOW_Y-30);
-            // j2 = Player(100, WINDOW_Y-30);
+            int str[25][10];
+
+            for (int i = 0; i < 25; i++) {
+                for (int j = 0; j < 10; j++) {
+                    str[i][j] = 1;
+                }
+            }
+
+            str[8][8] = 15;
+
+            players[0] = Player(WINDOW_X-200, WINDOW_Y-30);
 
             balls[0] = Ball();
-            // balls[1] = Ball();
+
+            strToBricks(str);
         }
 
-        void handleMove(sf::RenderWindow &app) {
-            j1.handleMoves(app);
-            // j2.handleMoves(app);
+        /**
+         * @brief Get the Player object
+         * 
+         * @param n 
+         * @return Player 
+         */
+        Player getPlayer(int n) {
+            return players[n];
+        }
+
+        /**
+         * @brief Get the Ball object
+         * 
+         * @param n 
+         * @return Ball 
+         */
+        Ball getBall(int n) {
+            return balls[n];
+        }
+
+        /**
+         * @brief Get the Brick object
+         * 
+         * @param n 
+         * @return Brick 
+         */
+        Brick getBrick(int n) {
+            return bricks[n];
+        }
+
+        /**
+         * @brief Handles player and ball movements
+         * 
+         * @param app 
+         */
+        void handleMoves(sf::RenderWindow &app) {
+            players[0].handleMoves(app);
+
             balls[0].handleKeyboard(app);
-            // balls[1].handleKeyboard(app);
-            balls[0].moving(j1);
-            // balls[1].moving(j2);
+            
+            balls[0].moving(players[0]);
         }
 
+        /**
+         * @brief Draw all the bricks in the game
+         * 
+         * @param app 
+         */
+        void drawBricks(sf::RenderWindow &app) {
+            for (int i = 0; i < 250; i++) {
+                bricks[i].draw(app);
+            }
+            
+        }
+
+        /**
+         * @brief Draw all the objects in the game
+         * 
+         * @param app 
+         */
         void draw(sf::RenderWindow &app) {
             app.clear();
-            j1.draw(app);
+            players[0].draw(app);
             // j2.draw(app);
+
             balls[0].draw(app);
             // balls[1].draw(app);
+
+            drawBricks(app);
+
             app.display();
+        }
+
+        void strToBricks(int file[25][10]) {
+            int n = 0;
+            for (int i = 0; i < 25; i++) {
+                for (int j = 0; j < 10; j++) {
+                    if (file[i][j] > 6 && file[i][j] < 0) 
+                        continue;
+                    else
+                        bricks[n] = Brick(file[i][j], 32*i, 32*j);
+                    n++;
+                }
+            }
         }
 };
 

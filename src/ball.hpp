@@ -108,7 +108,7 @@ class Ball {
                 printf("Nombre de points + 1 : %d \n",points);
             }
             //Si la balle touche le bas de l'écran
-            if (getY() == WINDOW_Y - 10){
+            if (getY() == WINDOW_Y - 10) {
                 points -= 1;
                 printf("Nombre de points - 1 : %d \n",points);
                 setMoving(false);

@@ -52,7 +52,7 @@ class Player {
             return sprite;
         }
 
-        void setX(int mx){
+        void setX(int mx) {
             sprite.setPosition(mx,getY());
         }
 
