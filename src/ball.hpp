@@ -105,12 +105,10 @@ class Ball {
             if (sprite.getGlobalBounds().intersects(player.getSprite().getGlobalBounds())) {
                 setDY(-dy);
                 points += 1;
-                printf("Nombre de points + 1 : %d \n",points);
             }
             //Si la balle touche le bas de l'écran
-            if (getY() == WINDOW_Y - 10){
-                points -= 1;
-                printf("Nombre de points - 1 : %d \n",points);
+            if (555 < getY()){           // WINDOW_Y et == ne marche plus sur cette ligne \o/
+                points -= 1; 
                 setMoving(false);
             }
         }

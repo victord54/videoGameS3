@@ -3,17 +3,24 @@
 
 #include <cstdlib>
 #include <iostream>
+#include <fstream>  
 #include <SFML/Graphics.hpp>
+#include <vector>
 
 #include "define.hpp"
 #include "player.hpp"
 #include "ball.hpp"
+
+std::ifstream  fichier;    //Fichier
+using namespace std; 
 
 class Game {
     private:
         Player j1;
         // Player j2;
         Ball balls[5];
+        char tab[25][10];
+        
     
     public:
         Game() {
@@ -40,6 +47,40 @@ class Game {
             balls[0].draw(app);
             // balls[1].draw(app);
             app.display();
+        }
+
+        void insererDansTableau(){
+            char a;
+            int position;
+            int n = 0;
+            ifstream  fichier( "ressources/input.txt" );
+            fichier.seekg(0, ios::beg);
+            if (fichier) {                        //le fichier peut s'ouvrir ouvert
+                for(int i = 0; i < 25; i++){
+                    for(int y = 0; i < 10; y++){
+                        fichier.get(a);
+                        if (a == 10){
+                            break;
+                        }
+                        printf("Valeur de a : %d\n",a);
+                        tab[i][y] = a;
+                        position = fichier.tellg();
+                        position--;
+                        printf("Le curseur est en position %d et capte le characère %c \n", position, a);   
+                        //fichier.seekg(n, ios::beg);
+                        n++;
+                   }
+                }
+            }
+            else{
+                printf("Cheh le fichier s'ouvre pas\n");
+            }
+            for (int k = 0; k < 25; k++ ) {
+                for (int l = 0; l < 10; l++ ) {
+                    printf("%c", tab[k][l]);
+                }
+                printf("\n");
+            }
         }
 };
 
