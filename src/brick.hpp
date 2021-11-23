@@ -2,22 +2,49 @@
 #define BRICK_HPP
 
 #include <SFML/Graphics.hpp>
-#include "player.hpp"
 #include "define.hpp"
 #include "texturesRect.hpp"
 
 class Brick {
     private:
-    char c;
-    sf::Texture texture;
-    sf::Sprite sprite;
+        sf::Texture texture;
+        sf::Sprite sprite;
 
     public:
-    Brick(char c){
-        TexturesRect textRect = TexturesRect();
-        c = c;
-        texture.loadFromFile("ressources/brickBreaker_sprites.png", textRect.getBrickRect(0));
-    }
+        Brick() {
+            TexturesRect textRect = TexturesRect();
+
+            texture.loadFromFile("ressources/brickBreaker_sprites.png", textRect.getBrickRect(0));
+            sprite.setPosition(0,0);
+        }
+
+        Brick(int n, int x, int y){
+            TexturesRect textRect = TexturesRect();
+
+            texture.loadFromFile("ressources/brickBreaker_sprites.png", textRect.getBrickRect(n));
+            sprite.setPosition(x,y);
+        }
+
+        int getX() {
+            return sprite.getPosition().x;
+        }
+
+        int getY() {
+            return sprite.getPosition().y;
+        }
+
+        int getW() {
+            return sprite.getGlobalBounds().width;
+        }
+
+        int getH() {
+            return sprite.getGlobalBounds().height;
+        }
+
+        void draw(sf::RenderWindow &app) {
+            sprite.setTexture(texture);
+            app.draw(sprite);
+        }
 };
 
 #endif
