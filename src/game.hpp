@@ -27,15 +27,17 @@ class Game {
          * 
          */
         Game() {
-            int str[25][10];
+            char str[25][10];
 
             for (int i = 0; i < 25; i++) {
                 for (int j = 0; j < 10; j++) {
-                    str[i][j] = 1;
+                    if (j % 2 == 0)
+                        str[i][j] = '1';
+                    else
+                        str[i][j] = '_';
                 }
             }
-
-            str[8][8] = 15;
+            str[0][0] = '1';
 
             players[0] = Player(WINDOW_X-200, WINDOW_Y-30);
 
@@ -117,14 +119,30 @@ class Game {
             app.display();
         }
 
-        void strToBricks(int file[25][10]) {
+        void strToBricks(char file[25][10]) {
             int n = 0;
             for (int i = 0; i < 25; i++) {
                 for (int j = 0; j < 10; j++) {
-                    if (file[i][j] > 6 && file[i][j] < 0) 
-                        continue;
-                    else
-                        bricks[n] = Brick(file[i][j], 32*i, 32*j);
+                    switch (file[i][j]) {
+                        case '0':
+                            bricks[n] = Brick(0, 32*i, 32*j); break;
+                        case '1':
+                            bricks[n] = Brick(1, 32*i, 32*j); break;
+                        case '2':
+                            bricks[n] = Brick(2, 32*i, 32*j); break;
+                        case '3':
+                            bricks[n] = Brick(3, 32*i, 32*j); break;
+                        case '4':
+                            bricks[n] = Brick(4, 32*i, 32*j); break;
+                        case '5':
+                            bricks[n] = Brick(5, 32*i, 32*j); break;
+                        case '6':
+                            bricks[n] = Brick(6, 32*i, 32*j); break;
+                        case '_':
+                            break;
+                        default:
+                            bricks[n] = Brick(0, 32*i, 32*j); break;
+                    }
                     n++;
                 }
             }
