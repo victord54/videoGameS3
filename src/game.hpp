@@ -25,7 +25,7 @@ class Game {
         Player players[2];
         Ball balls[5];
         Brick bricks[250];
-        char [25][10] tab;
+        char tab[25][10];
     
     public:
         /**
@@ -157,6 +157,8 @@ class Game {
                 }
                 printf("\n");
             }
+        }
+        
         void strToBricks(char file[25][10]) {
             int n = 0;
             for (int i = 0; i < 25; i++) {
