@@ -33,23 +33,23 @@ class Game {
          * 
          */
         Game() {
-            char str[25][10];
+            // char str[25][10];
 
-            for (int i = 0; i < 25; i++) {
-                for (int j = 0; j < 10; j++) {
-                    if (j % 2 == 0)
-                        str[i][j] = '1';
-                    else
-                        str[i][j] = '_';
-                }
-            }
-            str[0][0] = '1';
+            // for (int i = 0; i < 25; i++) {
+            //     for (int j = 0; j < 10; j++) {
+            //         if (j % 2 == 0)
+            //             str[i][j] = '1';
+            //         else
+            //             str[i][j] = '_';
+            //     }
+            // }
+            //str[0][0] = '1';
 
             players[0] = Player(WINDOW_X-200, WINDOW_Y-30);
 
             balls[0] = Ball();
 
-            strToBricks(str);
+            //strToBricks(str);
         }
 
         /**
@@ -120,7 +120,7 @@ class Game {
             balls[0].draw(app);
             // balls[1].draw(app);
 
-            drawBricks(app);
+            //drawBricks(app);
 
             app.display();
         }
@@ -158,7 +158,7 @@ class Game {
                 printf("\n");
             }
         }
-        
+
         void strToBricks(char file[25][10]) {
             int n = 0;
             for (int i = 0; i < 25; i++) {
