@@ -109,13 +109,13 @@ class Ball {
                 
                 int playerX = player.getX() + (player.getW() / 2);
                 int ballX = this->getX();
-                int collisionPointX = ballX - playerX;
+                int collisionPointX = ballX - playerX;  //Retourne valeur négative si inf à la moitié de la plateforme et positive si plus de la moitier de la plateforme
                 //setDX(colideX - dx / 2); //Formule abandonnée 
-                if(collisionPointX > 0){
+                if(collisionPointX > 0){    //Balle va à droite
                     setDX(8);
                     setDY(-dy);
                 }
-                if(collisionPointX < 0){
+                if(collisionPointX < 0){    //Balle va à gauche
                     setDX(-8);
                     setDY(-dy);
                 }
