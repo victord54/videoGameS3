@@ -108,7 +108,7 @@ class Game {
             balls[0].draw(app);
             // balls[1].draw(app);
 
-            drawBricks(app);
+            //drawBricks(app);
 
             app.display();
         }
@@ -137,7 +137,7 @@ class Game {
                 printf("Cheh le fichier s'ouvre pas\n");
             }
         }
-        
+
         void strToBricks(char file[25][10]) {
             int n = 0;
             for (int i = 0; i < 25; i++) {

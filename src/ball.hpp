@@ -103,7 +103,28 @@ class Ball {
             
             // Collision avec la plateforme (player)
             if (sprite.getGlobalBounds().intersects(player.getSprite().getGlobalBounds())) {
-                setDY(-dy);
+                //Il faut : trouver la position de la balle SUR la plateforme
+                //Envoyer la balle dans la bonne directio
+                    //Puis dans le bon angle
+                
+                int playerX = player.getX() + (player.getW() / 2);
+                int ballX = this->getX();
+                int collisionPointX = ballX - playerX;  //Retourne valeur négative si inf à la moitié de la plateforme et positive si plus de la moitier de la plateforme
+                //setDX(colideX - dx / 2); //Formule abandonnée 
+                if(collisionPointX > 0){    //Balle va à droite
+                    setDX(8);
+                    setDY(-dy);
+                }
+                if(collisionPointX < 0){    //Balle va à gauche
+                    setDX(-8);
+                    setDY(-dy);
+                }
+                // //Affichage pour reglage :
+                // printf("colideX valeur = %d \n",collisionPointX);
+                // printf("DX : %d \n",dx);
+                // printf("Dy : %d \n",dy);
+                
+                //setDY(FORMULE DU TURFU)    
                 points += 1;
             }
             //Si la balle touche le bas de l'écran
