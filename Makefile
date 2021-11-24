@@ -3,8 +3,8 @@ CFLAGS = -W -Wall -ansi -g
 LIBS =
 LDFLAGS = -lsfml-graphics -lsfml-window -lsfml-system
 
-SRCDIR = src
-BUILDDIR = build
+BUILDDIR ?= ./build
+SRCDIRS ?= ./src
 
 SRCS = $(shell find $(SRCDIR) -name *.cpp)
 OBJS = $(SRCS:%.c=$(BUILDDIR)/%.o)
@@ -33,3 +33,5 @@ clean:
 	rm -rf *.o
 mrpropre:
 	rm -r build/*
+
+MKDIR_P ?= mkdir -p

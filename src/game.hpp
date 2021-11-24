@@ -25,7 +25,7 @@ class Game {
         Player players[2];
         Ball balls[5];
         Brick bricks[250];
-        char tab[25][10];
+        char tab[25][10] = {' '};
     
     public:
         /**
@@ -33,23 +33,11 @@ class Game {
          * 
          */
         Game() {
-            char str[25][10];
-
-            for (int i = 0; i < 25; i++) {
-                for (int j = 0; j < 10; j++) {
-                    if (j % 2 == 0)
-                        str[i][j] = '1';
-                    else
-                        str[i][j] = '_';
-                }
-            }
-            str[0][0] = '1';
-
             players[0] = Player(WINDOW_X-200, WINDOW_Y-30);
 
             balls[0] = Ball();
-
-            strToBricks(str);
+            insererDansTableau();
+            strToBricks(tab);
         }
 
         /**
@@ -127,35 +115,26 @@ class Game {
 
         void insererDansTableau(){
             char a;
-            int position;
-            int n = 0;
-            ifstream  fichier( "ressources/input.txt" );
-            fichier.seekg(0, ios::beg);
-            if (fichier) {                        //le fichier peut s'ouvrir ouvert
-                for(int i = 0; i < 25; i++){
-                    for(int y = 0; i < 10; y++){
-                        fichier.get(a);
-                        if (a == 10){
-                            break;
-                        }
-                        printf("Valeur de a : %d\n",a);
-                        tab[i][y] = a;
-                        position = fichier.tellg();
-                        position--;
-                        printf("Le curseur est en position %d et capte le characère %c \n", position, a);   
-                        //fichier.seekg(n, ios::beg);
-                        n++;
-                   }
+            int pos = 0;
+            int i = 0;
+            int j = 0;
+            ifstream fichier("ressources/input.txt" );
+            if (fichier) { // le fichier peut s'ouvrir
+                fichier.seekg(pos,ios::end);
+                int taille = fichier.tellg();
+
+                for (pos = 0; pos < taille; pos++) {
+                    fichier.seekg(pos,std::ios::beg);
+                    fichier.get(a);
+                    if ((int)a == 10)
+                        j++;
+                    else
+                        tab[i%25][j] = a;
+                    i++;
                 }
             }
             else{
                 printf("Cheh le fichier s'ouvre pas\n");
-            }
-            for (int k = 0; k < 25; k++ ) {
-                for (int l = 0; l < 10; l++ ) {
-                    printf("%c", tab[k][l]);
-                }
-                printf("\n");
             }
         }
         
@@ -178,10 +157,10 @@ class Game {
                             bricks[n] = Brick(5, 32*i, 32*j); break;
                         case '6':
                             bricks[n] = Brick(6, 32*i, 32*j); break;
-                        case '_':
+                        case ' ':
                             break;
                         default:
-                            bricks[n] = Brick(0, 32*i, 32*j); break;
+                            break;
                     }
                     n++;
                 }
