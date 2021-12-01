@@ -108,7 +108,7 @@ class Game {
             balls[0].draw(app);
             // balls[1].draw(app);
 
-            //drawBricks(app);
+            drawBricks(app);
 
             app.display();
         }
