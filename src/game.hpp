@@ -12,6 +12,7 @@
 #include "player.hpp"
 #include "ball.hpp"
 #include "brick.hpp"
+#include "menu.hpp"
 
 std::ifstream  fichier;    //Fichier
 using namespace std; 

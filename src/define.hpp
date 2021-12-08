@@ -4,6 +4,7 @@
 #define WINDOW_X 800
 #define WINDOW_Y 600
 
+
 #define X_SPEED 5
 #define Y_SPEED 3
 
