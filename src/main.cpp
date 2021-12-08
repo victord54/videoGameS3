@@ -14,8 +14,6 @@ int main() {
 
     Game game = Game();
 
-    game.insererDansTableau();
-
     while (app.isOpen()) {
         game.handleMoves(app);
         game.draw(app);
