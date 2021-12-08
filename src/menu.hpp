@@ -23,8 +23,8 @@ class Menu{
         Menu(){
             texturePlay.loadFromFile("ressources/play.png");
             textureQuit.loadFromFile("ressources/quit.png");
-            spritePLay.setPosition(0,0);
-            spriteQuit.setPosition(0,100);
+            spritePLay.setPosition(100,0);
+            spriteQuit.setPosition(150,300);
             choix = 0;
             menuUpdate = 1;
         }   

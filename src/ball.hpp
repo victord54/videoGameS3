@@ -9,6 +9,10 @@
 #include "define.hpp"
 #include "texturesRect.hpp"
 
+/**
+ * @brief Class that represents Ball in the game
+ * 
+ */
 class Ball {
    private:
         int points;
@@ -22,66 +26,136 @@ class Ball {
         sf::Sprite sprite;
 
     public:
+        /**
+         * @brief Construct a new Ball object
+         * 
+         */
         Ball() {
             TexturesRect textRect = TexturesRect();
             
-            dx = BALL_SPEED_X;
-            dy = -BALL_SPEED_Y;
+            dx = 8;
+            dy = -10;
 
             move = false;
             points = 0;
             texture.loadFromFile("ressources/brickBreaker_sprites.png", textRect.getBallRect());
         }
 
+        /**
+         * @brief Get the x coordinate of the Ball
+         * 
+         * @return int 
+         */
         int getX() {
             return sprite.getPosition().x;
         }
 
+        /**
+         * @brief Get the y coordinate of the Ball
+         * 
+         * @return int 
+         */
         int getY() {
             return sprite.getPosition().y;
         }
 
+        /**
+         * @brief Get the x speed of the Ball
+         * 
+         * @return int 
+         */
         int getDX() {
             return dx;
         }
 
+        /**
+         * @brief Get the y speed of the Ball
+         * 
+         * @return int 
+         */
         int getDY() {
             return dy;
         }
 
+        /**
+         * @brief Get the width of the Ball
+         * 
+         * @return int 
+         */
         int getW() {
             return sprite.getGlobalBounds().width;
         }
 
+        /**
+         * @brief Get the height of the Ball
+         * 
+         * @return int 
+         */
         int getH() {
             return sprite.getGlobalBounds().height;
         }
 
+        /**
+         * @brief Get the Sprite object
+         * 
+         * @return sf::Sprite 
+         */
         sf::Sprite getSprite() {
             return sprite;
         }
 
+        /**
+         * @brief Indicate if the ball is moving or not
+         * 
+         * @return true 
+         * @return false 
+         */
         bool isMoving() {
             return move;
         }
 
+        /**
+         * @brief Set the x speed of the Ball
+         * 
+         * @param x 
+         */
         void setDX(int x) {
             dx = x;
         }
 
+        /**
+         * @brief Set the y speed of the Ball
+         * 
+         * @param y 
+         */
         void setDY(int y) {
             dy = y;
         }
 
+        /**
+         * @brief Set the Moving object
+         * 
+         * @param b 
+         */
         void setMoving(bool b) {
             move = b;
         }
 
+        /**
+         * @brief Show texture of the Ball on screen
+         * 
+         * @param app 
+         */
         void draw(sf::RenderWindow &app) {
             sprite.setTexture(texture);
             app.draw(sprite);
         }
 
+        /**
+         * @brief Allow to make move the ball in the game
+         * 
+         * @param player 
+         */
         void moving(Player &player) {
             if (isMoving() == true) {
                 sprite.move(dx, dy);
@@ -91,6 +165,11 @@ class Ball {
                 sprite.setPosition(player.getX() + player.getW()/2 - 6, player.getY() - player.getH()/2 - 4);
         }
 
+        /**
+         * @brief Handle the ball movement
+         * 
+         * @param app 
+         */
         void handleKeyboard(sf::RenderWindow &app) {
             sf::Event event;
   
@@ -98,6 +177,11 @@ class Ball {
                 setMoving(true);
         }
 
+        /**
+         * @brief Handle the collisions between walls and Player
+         * 
+         * @param player 
+         */
         void collision(Player &player) {
             // Collision avec les murs
             if (sprite.getPosition().x < 0 || sprite.getPosition().x + getW() > WINDOW_X)
