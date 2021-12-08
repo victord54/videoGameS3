@@ -116,15 +116,39 @@ class Ball {
                 int collisionPointX = ballX - playerX;  //Retourne valeur négative si inf à la moitié de la plateforme et positive si plus de la moitier de la plateforme
                 //setDX(colideX - dx / 2); //Formule abandonnée 
                 if(collisionPointX > 0){    //Balle va à droite
-                    setDX(8);
+                    if(collisionPointX > 30){
+                        setDX(10);
+                        setDY(-dy);
+                    }
+                    else if(collisionPointX > 15){
+                        setDX(5);
+                        setDY(-dy);
+                    }
+                    else{
+                        setDX(1);
+                        setDY(-dy - 1);
+                    }
+                }
+                if(collisionPointX == 0){   //Balle va en haut
+                    setDX(0);
                     setDY(-dy);
                 }
                 if(collisionPointX < 0){    //Balle va à gauche
-                    setDX(-8);
-                    setDY(-dy);
+                    if(collisionPointX < -30){
+                        setDX(-10);
+                        setDY(-dy);
+                    }
+                    else if(collisionPointX < -15){
+                        setDX(-5);
+                        setDY(-dy);
+                    }
+                    else{
+                        setDX(-1);
+                        setDY(-dy - 1);
+                    }
                 }
                 // //Affichage pour reglage :
-                // printf("colideX valeur = %d \n",collisionPointX);
+                //printf("colideX valeur = %d \n",collisionPointX);
                 // printf("DX : %d \n",dx);
                 // printf("Dy : %d \n",dy);
                 
