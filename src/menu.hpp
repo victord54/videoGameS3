@@ -48,13 +48,17 @@ class Menu{
                 // évènement "fermeture demandée" : on ferme la fenêtre
                 if (event.type == sf::Event::Closed)
                     app.close();
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-                    app.close();
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
+                    app.close(); 
+                    exit(0);
+                }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
                     if(choix == 0)          //Si on est sur play
                         menuUpdate = 0;
-                    if(choix == 1)          //Si on est sur quit
+                    if(choix == 1) {         //Si on est sur quit
                         app.close();
+                        exit(0);
+                    }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
                     if(choix == 0)
                         choix++;
@@ -66,7 +70,7 @@ class Menu{
                         choix++;
                     else
                         choix--;
-                    printf("%d\n",choix);
+                    //printf("%d\n",choix);
             }
         }
 };
