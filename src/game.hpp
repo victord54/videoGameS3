@@ -14,19 +14,20 @@
 #include "brick.hpp"
 #include "menu.hpp"
 
-std::ifstream  fichier;    //Fichier
-using namespace std; 
-
 /**
  * @brief Class that manages what is related to the game itself
  * 
  */
 class Game {
     private:
-        Player players[2];
-        Ball balls[5];
-        Brick bricks[250];
-        char tab[25][10] = {' '};
+        int nbPlayers;
+        Player players;
+
+        int nbBalls;
+        Ball balls;
+
+        int nbBricks;
+        Brick *bricks;
     
     public:
         /**
@@ -34,11 +35,10 @@ class Game {
          * 
          */
         Game() {
-            players[0] = Player(WINDOW_X-200, WINDOW_Y-30);
+            players = Player(WINDOW_X-200, WINDOW_Y-30);
+            balls = Ball();
 
-            balls[0] = Ball();
-            insererDansTableau();
-            strToBricks(tab);
+            fileToBricks();
         }
 
         /**
@@ -48,7 +48,7 @@ class Game {
          * @return Player 
          */
         Player getPlayer(int n) {
-            return players[n];
+            return players;
         }
 
         /**
@@ -58,7 +58,7 @@ class Game {
          * @return Ball 
          */
         Ball getBall(int n) {
-            return balls[n];
+            return balls;
         }
 
         /**
@@ -77,11 +77,13 @@ class Game {
          * @param app 
          */
         void handleMoves(sf::RenderWindow &app) {
-            players[0].handleMoves(app);
+            players.handleMoves(app);
 
-            balls[0].handleKeyboard(app);
+            balls.handleKeyboard(app);
             
-            balls[0].moving(players[0]);
+            balls.moving(players);
+
+            collision();
         }
 
         /**
@@ -90,81 +92,106 @@ class Game {
          * @param app 
          */
         void drawBricks(sf::RenderWindow &app) {
-            for (int i = 0; i < 250; i++) {
+            for (int i = 0; i < nbBricks; i++) {
                 bricks[i].draw(app);
             }
-            
         }
 
         /**
          * @brief Draw all the objects in the game
          * 
-         * @param app 
+         * @param app
          */
         void draw(sf::RenderWindow &app) {
             app.clear();
-            players[0].draw(app);
-            // j2.draw(app);
+            players.draw(app);
 
-            balls[0].draw(app);
-            // balls[1].draw(app);
+            balls.draw(app);
 
             drawBricks(app);
 
             app.display();
         }
 
-        void insererDansTableau(){
-            char a;
-            int pos = 0;
-            int i = 0;
-            int j = 0;
-            ifstream fichier("ressources/input.txt" );
-            if (fichier) { // le fichier peut s'ouvrir
-                fichier.seekg(pos,ios::end);
-                int taille = fichier.tellg();
+        void fileToBricks() {
+            char c;
+            std::ifstream fichier("ressources/input.txt");
+            if (fichier) {
+                fichier.seekg(0, std::ios::end);
+                int size = fichier.tellg();
+                nbBricks = size;
 
-                for (pos = 0; pos < taille; pos++) {
-                    fichier.seekg(pos,std::ios::beg);
-                    fichier.get(a);
-                    if ((int)a == 10)
-                        j++;
-                    else
-                        tab[i%25][j] = a;
-                    i++;
+                char* tab= (char*)malloc(size * sizeof(char));
+
+                for (int i = 0; i < size; i++) {
+                    fichier.seekg(i, std::ios::beg);
+                    fichier.get(c);
+                    if (c == 10)
+                        nbBricks--;
+                    tab[i] = c;
                 }
-            }
-            else{
-                printf("Cheh le fichier s'ouvre pas\n");
+
+                bricks = new Brick[size];
+
+                std::cout << "size=" << size << std::endl;
+                std::cout << "nbBricks=" << nbBricks << std::endl;
+                int w = 0;
+                int h = 0;
+                int n = 0;
+                for (int i = 0; i < size; i++) {
+                    switch (tab[i]) {
+                        case '0':
+                            bricks[n] = Brick(0, 32*(w), 32*h);
+                            n++;
+                            break;
+                        case '1':
+                            bricks[n] = Brick(1, 32*(w), 32*h);
+                            n++; 
+                            break;
+                        case '2':
+                            bricks[n] = Brick(2, 32*(w), 32*h);
+                            n++; 
+                            break;
+                        case '3':
+                            bricks[n] = Brick(3, 32*(w), 32*h);
+                            n++; 
+                            break;
+                        case '4':
+                            bricks[n] = Brick(4, 32*(w), 32*h);
+                            n++; 
+                            break;
+                        case '5':
+                            bricks[n] = Brick(5, 32*(w), 32*h);
+                            n++; 
+                            break;
+                        case '6':
+                            bricks[n] = Brick(6, 32*(w), 32*h);
+                            n++; 
+                            break;
+                        case '_':
+                            bricks[n] = Brick(0,32*(w), 32*h);
+                            bricks[n].teleport();
+                            n++; 
+                            break;
+                        default:
+                            h++;
+                            w = -1;
+                            break;
+                    }
+                    w++;
+                }
+                if (n != nbBricks)
+                    exit(0);
             }
         }
 
-        void strToBricks(char file[25][10]) {
-            int n = 0;
-            for (int i = 0; i < 25; i++) {
-                for (int j = 0; j < 10; j++) {
-                    switch (file[i][j]) {
-                        case '0':
-                            bricks[n] = Brick(0, 32*i, 32*j); break;
-                        case '1':
-                            bricks[n] = Brick(1, 32*i, 32*j); break;
-                        case '2':
-                            bricks[n] = Brick(2, 32*i, 32*j); break;
-                        case '3':
-                            bricks[n] = Brick(3, 32*i, 32*j); break;
-                        case '4':
-                            bricks[n] = Brick(4, 32*i, 32*j); break;
-                        case '5':
-                            bricks[n] = Brick(5, 32*i, 32*j); break;
-                        case '6':
-                            bricks[n] = Brick(6, 32*i, 32*j); break;
-                        case ' ':
-                            break;
-                        default:
-                            break;
-                    }
-                    n++;
+        void collision() {
+            for (int i = 0; i <nbBricks; i++) {
+                if (balls.getSprite().getGlobalBounds().intersects(bricks[i].getSprite().getGlobalBounds())) {
+                    bricks[i].teleport();
+
                 }
+
             }
         }
 };

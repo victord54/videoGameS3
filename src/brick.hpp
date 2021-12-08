@@ -41,9 +41,17 @@ class Brick {
             return sprite.getGlobalBounds().height;
         }
 
+        sf::Sprite getSprite() {
+            return sprite;
+        }
+
         void draw(sf::RenderWindow &app) {
             sprite.setTexture(texture);
             app.draw(sprite);
+        }
+
+        void teleport() {
+            sprite.setPosition(-100, -100);
         }
 };
 

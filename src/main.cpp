@@ -16,8 +16,6 @@ int main() {
     Game game = Game();
     Menu menu = Menu();
 
-    game.insererDansTableau();
-
     while (app.isOpen()) {
         while(menu.getMenuUpdate() == 1){
             menu.handleMoves(app);

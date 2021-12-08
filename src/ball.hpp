@@ -57,6 +57,10 @@ class Ball {
             return sprite.getGlobalBounds().height;
         }
 
+        sf::Sprite getSprite() {
+            return sprite;
+        }
+
         bool isMoving() {
             return move;
         }
