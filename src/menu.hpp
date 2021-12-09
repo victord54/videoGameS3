@@ -11,20 +11,28 @@
 
 class Menu{
     private:
-    sf::Texture texturePlay;
-    sf::Texture textureQuit;
-    sf::Sprite spritePLay;
-    sf::Sprite spriteQuit;
+    sf::Texture texturePlayGrand;
+    sf::Texture textureQuitGrand;
+    sf::Texture texturePlayTiny;
+    sf::Texture textureQuitTiny;
+    sf::Sprite spritePlayGrand;
+    sf::Sprite spriteQuitGrand;
+    sf::Sprite spritePlayTiny;
+    sf::Sprite spriteQuitTiny;
 
     int menuUpdate;
     int choix;
     
     public:
         Menu(){
-            texturePlay.loadFromFile("ressources/play.png");
-            textureQuit.loadFromFile("ressources/quit.png");
-            spritePLay.setPosition(0,0);
-            spriteQuit.setPosition(0,100);
+            texturePlayGrand.loadFromFile("ressources/playGrand.png");
+            textureQuitGrand.loadFromFile("ressources/quitGrand.png");
+            texturePlayTiny.loadFromFile("ressources/playTiny.png");
+            textureQuitTiny.loadFromFile("ressources/quitTiny.png");
+            spritePlayGrand.setPosition(120,100);
+            spriteQuitGrand.setPosition(130,270);
+            spritePlayTiny.setPosition(230,100);
+            spriteQuitTiny.setPosition(200,300);
             choix = 0;
             menuUpdate = 1;
         }   
@@ -35,10 +43,18 @@ class Menu{
 
         void draw(sf::RenderWindow &app) {
             app.clear();
-            spritePLay.setTexture(texturePlay);
-            spriteQuit.setTexture(textureQuit);
-            app.draw(spritePLay);
-            app.draw(spriteQuit);
+            spritePlayGrand.setTexture(texturePlayGrand);
+            spriteQuitTiny.setTexture(textureQuitTiny);
+            spritePlayTiny.setTexture(texturePlayTiny);
+            spriteQuitGrand.setTexture(textureQuitGrand);
+            if(choix == 0){
+                app.draw(spritePlayGrand);
+                app.draw(spriteQuitTiny);
+            }
+            if(choix == 1){
+                app.draw(spritePlayTiny);
+                app.draw(spriteQuitGrand);
+            }
             app.display();
         }
 
