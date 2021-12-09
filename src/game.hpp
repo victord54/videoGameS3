@@ -87,7 +87,7 @@ class Game {
         }
 
         /**
-         * @brief Draw all the bricks in the game
+         * @brief Show texture of all Bricks on screen
          * 
          * @param app 
          */
@@ -98,7 +98,7 @@ class Game {
         }
 
         /**
-         * @brief Draw all the objects in the game
+         * @brief Show texture of all the objects on screen
          * 
          * @param app
          */
@@ -113,6 +113,10 @@ class Game {
             app.display();
         }
 
+        /**
+         * @brief Allow to generate Bricks from a text file
+         * 
+         */
         void fileToBricks() {
             char c;
             std::ifstream fichier("ressources/input.txt");
@@ -158,7 +162,7 @@ class Game {
                             break;
                         case '4':
                             bricks[n] = Brick(4, 32*(w), 32*h);
-                            n++; 
+                            n++;
                             break;
                         case '5':
                             bricks[n] = Brick(5, 32*(w), 32*h);
@@ -185,6 +189,10 @@ class Game {
             }
         }
 
+        /**
+         * @brief Handle collisions between ball and bricks
+         * 
+         */
         void collision() {
             for (int i = 0; i <nbBricks; i++) {
                 if (balls.getSprite().getGlobalBounds().intersects(bricks[i].getSprite().getGlobalBounds())) {

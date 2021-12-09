@@ -6,15 +6,12 @@
 #include "game.hpp"
 #include "menu.hpp"
 
-using namespace sf;
-using namespace std;
-
 int main() {
-    RenderWindow app(VideoMode(WINDOW_X, WINDOW_Y), "Brick Breaker");
+    sf::RenderWindow app(sf::VideoMode(WINDOW_X, WINDOW_Y), "Brick Breaker");
     app.setFramerateLimit(60);
 
-    Game game = Game();
     Menu menu = Menu();
+    Game game = Game();
 
     while (app.isOpen()) {
         while(menu.getMenuUpdate() == 1){
