@@ -37,7 +37,7 @@ class Menu{
             menuUpdate = 1;
         }   
 
-        int getMenuUpdate(){
+        int getMenuUpdate() {
             return menuUpdate;
         }
 
@@ -47,11 +47,11 @@ class Menu{
             spriteQuitTiny.setTexture(textureQuitTiny);
             spritePlayTiny.setTexture(texturePlayTiny);
             spriteQuitGrand.setTexture(textureQuitGrand);
-            if(choix == 0){
+            if(choix == 0) {
                 app.draw(spritePlayGrand);
                 app.draw(spriteQuitTiny);
             }
-            if(choix == 1){
+            if(choix == 1) {
                 app.draw(spritePlayTiny);
                 app.draw(spriteQuitGrand);
             }

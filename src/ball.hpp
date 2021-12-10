@@ -178,7 +178,7 @@ class Ball {
         }
 
         /**
-         * @brief Handle the collisions between walls and Player
+         * @brief Handle the collisions between Ball and walls/Player
          * 
          * @param player 
          */
@@ -188,9 +188,13 @@ class Ball {
                 setDX(-dx);
             if (sprite.getPosition().y < 0 || sprite.getPosition().y + getH() > WINDOW_Y)
                 setDY(-dy);
+            if (getY() >= WINDOW_Y - 16) { // Si la balle touche le mur du bas
+                    setMoving(false);
+                }
             
             // Collision avec la plateforme (player)
             if (sprite.getGlobalBounds().intersects(player.getSprite().getGlobalBounds())) {
+                //Si la balle touche le bas de l'écran
                 //Il faut : trouver la position de la balle SUR la plateforme
                 //Envoyer la balle dans la bonne directio
                     //Puis dans le bon angle
@@ -238,12 +242,6 @@ class Ball {
                 
                 //setDY(FORMULE DU TURFU)    
                 points += 1;
-            }
-            //Si la balle touche le bas de l'écran
-            if (getY() == WINDOW_Y - 10) {
-                points -= 1;
-                printf("Nombre de points - 1 : %d \n",points);
-                setMoving(false);
             }
         }
 
