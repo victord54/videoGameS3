@@ -33,8 +33,8 @@ class Ball {
         Ball() {
             TexturesRect textRect = TexturesRect();
             
-            dx = 8;
-            dy = -10;
+            dx = 3;
+            dy = -3;
 
             move = false;
             points = 0;
@@ -201,8 +201,8 @@ class Ball {
                 
                 int playerX = player.getX() + (player.getW() / 2);
                 int ballX = this->getX();
-                int collisionPointX = ballX - playerX;  //Retourne valeur négative si inf à la moitié de la plateforme et positive si plus de la moitier de la plateforme
-                //setDX(colideX - dx / 2); //Formule abandonnée 
+                int collisionPointX = ballX - playerX;  //Retourne valeur négative si inf à la moitié de la plateforme et positive si plus de la moitiée de la plateforme
+                //setDX(colideX - dx / 2); //Formule abandonnée
                 if(collisionPointX > 0){    //Balle va à droite
                     if(collisionPointX > 30){
                         setDX(10);

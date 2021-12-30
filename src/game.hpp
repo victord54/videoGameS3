@@ -195,11 +195,24 @@ class Game {
          */
         void collision() {
             for (int i = 0; i <nbBricks; i++) {
-                if (balls.getSprite().getGlobalBounds().intersects(bricks[i].getSprite().getGlobalBounds())) {
-                    bricks[i].teleport();
-
+                if (bricks[i].getSprite().getGlobalBounds().intersects(balls.getSprite().getGlobalBounds())) {
+                    std::cout << "\n\nball.x = " << balls.getX() +1 << "\nball.y = " << balls.getY() +1 << "\nball.w = " << balls.getW() +1 << "\nball.h = " << balls.getH() +1 << std::endl;
+                    std::cout << "\nbrick.x = " << bricks[i].getX() << "\nbrick.y = " << bricks[i].getY() << "\nbrick.w = " << bricks[i].getW() << "\nbrick.h = " << bricks[i].getH() << std::endl;
+                    if (balls.getX() + balls.getW() + 1 == bricks[i].getX()) { // Collision a gauche de la brique
+                        balls.setDX(-balls.getDX());
+                        bricks[i].teleport();
+                    } else if (balls.getX() + 1 == bricks[i].getX() + bricks[i].getW()) { // Collision à droite de la brique
+                        balls.setDX(-balls.getDX());
+                        bricks[i].teleport();
+                    } else if (balls.getY() + balls.getH() + 1 == bricks[i].getY()) { // Collision en haut de la brique
+                        balls.setDY(-balls.getDY());
+                        bricks[i].teleport();
+                    } else if (balls.getY() + 1 == bricks[i].getY() + bricks[i].getH()) { // Collision en bas de la brique
+                        balls.setDY(-balls.getDY());
+                        bricks[i].teleport();
+                    }
+                    
                 }
-
             }
         }
 };
