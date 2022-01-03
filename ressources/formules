@@ -1,0 +1,8 @@
+vx = a = 8
+vy = b = 6
+
+v = sqrt(vx² + vy²)
+
+AN :
+	v = sqrt(8² + 6²) = sqrt(64 + 36) = sqrt(100) = 10
+

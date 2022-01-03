@@ -1,0 +1,46 @@
+@startuml
+
+class Game {
+    + Game()
+    + Player getPlayer(int n)
+    + Ball getBall(int n)
+    + Brick getBrick(int n)
+    + void handleMoves(sf::RenderWindow &app)
+    + void drawBricks(sf::RenderWindow &app)
+    + void draw(sf::RenderWindow &app)
+}
+
+class Player {
+    + Player()
+    + int getX()
+    + int getY()
+    + int getW()
+    + int getH()
+    + bool isSouris()
+    + sf::Sprite getSprite()
+    + void setX(int mx)
+    + void setDeplacementSouris(bool b)
+    + void moveX(int mX)
+    + void draw(sf::RenderWindow &app)
+    + void handleMoves(sf::RenderWindow &app)
+    
+}
+
+class Ball {
+    
+}
+
+class Brick {
+
+}
+
+class texturesRect {
+
+}
+
+Game --"*" Player
+Game --"*" Ball
+Game --"*" Brick
+
+
+@enduml
