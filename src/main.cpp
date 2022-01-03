@@ -14,10 +14,11 @@ int main() {
     Game game = Game();
 
     while (app.isOpen()) {
-        while(menu.getMenuUpdate() == 1){
+        while(menu.getMenuUpdate() == 1) {
             menu.handleMoves(app);
             menu.draw(app);
         }
+
         game.handleMoves(app);
         game.draw(app);
         game.endOfGame();

@@ -127,8 +127,11 @@ class Game {
                 balls.draw(app);
                 drawBricks(app);
             } else {
-                printf("Vous avez gagné\n");
-                app.close();
+                sf::Texture textureGameOver;
+                textureGameOver.loadFromFile("ressources/gameoverscreen.png");
+                sf::Sprite sprite;
+                sprite.setTexture(textureGameOver);
+                app.draw(sprite);
             }
 
             app.display();
