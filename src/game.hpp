@@ -23,6 +23,8 @@ class Game {
         int nbPlayers;
         Player players;
 
+        int points;
+
         int nbBalls;
         Ball balls;
 
@@ -37,6 +39,8 @@ class Game {
         Game() {
             players = Player(WINDOW_X-200, WINDOW_Y-30);
             balls = Ball();
+
+            points = 0;
 
             fileToBricks();
         }
@@ -74,16 +78,19 @@ class Game {
         /**
          * @brief Handles player and ball movements
          * 
-         * @param app 
+         * @param app
          */
         void handleMoves(sf::RenderWindow &app) {
             players.handleMoves(app);
 
             balls.handleKeyboard(app);
+            balls.collision(players);
             
-            balls.moving(players);
+            balls.movingX(players);
+            collisionX();
 
-            collision();
+            balls.movingY(players);
+            collisionY();
         }
 
         /**
@@ -189,29 +196,52 @@ class Game {
             }
         }
 
+        bool collision(sf::Sprite sprite1, sf::Sprite sprite2) {
+            return sprite1.getGlobalBounds().intersects(sprite2.getGlobalBounds());
+        }
+
         /**
          * @brief Handle collisions between ball and bricks
          * 
          */
-        void collision() {
+        void collisionX() {
             for (int i = 0; i <nbBricks; i++) {
-                if (bricks[i].getSprite().getGlobalBounds().intersects(balls.getSprite().getGlobalBounds())) {
-                    std::cout << "\n\nball.x = " << balls.getX() +1 << "\nball.y = " << balls.getY() +1 << "\nball.w = " << balls.getW() +1 << "\nball.h = " << balls.getH() +1 << std::endl;
-                    std::cout << "\nbrick.x = " << bricks[i].getX() << "\nbrick.y = " << bricks[i].getY() << "\nbrick.w = " << bricks[i].getW() << "\nbrick.h = " << bricks[i].getH() << std::endl;
-                    if (balls.getX() + balls.getW() + 1 == bricks[i].getX()) { // Collision a gauche de la brique
-                        balls.setDX(-balls.getDX());
-                        bricks[i].teleport();
-                    } else if (balls.getX() + 1 == bricks[i].getX() + bricks[i].getW()) { // Collision à droite de la brique
-                        balls.setDX(-balls.getDX());
-                        bricks[i].teleport();
-                    } else if (balls.getY() + balls.getH() + 1 == bricks[i].getY()) { // Collision en haut de la brique
-                        balls.setDY(-balls.getDY());
-                        bricks[i].teleport();
-                    } else if (balls.getY() + 1 == bricks[i].getY() + bricks[i].getH()) { // Collision en bas de la brique
-                        balls.setDY(-balls.getDY());
-                        bricks[i].teleport();
+                if (collision(bricks[i].getSprite(), balls.getSprite())) {
+                    if (i < nbBricks - 1) {
+                        if (collision(bricks[i+1].getSprite(), balls.getSprite())) {
+                            continue;
+                        }
+                    } else if (i > 0) {
+                        if (collision(bricks[i-1].getSprite(), balls.getSprite())) {
+                            continue;
+                        }
                     }
-                    
+                    balls.setDX(-balls.getDX());
+                    bricks[i].teleport();
+                    points++;
+                }
+            }
+        }
+
+        /**
+         * @brief Handle collisions between ball and bricks
+         * 
+         */
+        void collisionY() {
+            for (int i = 0; i <nbBricks; i++) {
+                if (collision(bricks[i].getSprite(), balls.getSprite())) {
+                    if (i < nbBricks - 1) {
+                        if (collision(bricks[i+1].getSprite(), balls.getSprite())) {
+                            continue;
+                        }
+                    } else if (i > 0) {
+                        if (collision(bricks[i-1].getSprite(), balls.getSprite())) {
+                            continue;
+                        }
+                    }
+                    balls.setDY(-balls.getDY());
+                    bricks[i].teleport();
+                    points++;
                 }
             }
         }

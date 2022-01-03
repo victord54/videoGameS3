@@ -15,8 +15,6 @@
  */
 class Ball {
    private:
-        int points;
-
         int dx;
         int dy;
 
@@ -37,7 +35,6 @@ class Ball {
             dy = -3;
 
             move = false;
-            points = 0;
             texture.loadFromFile("ressources/brickBreaker_sprites.png", textRect.getBallRect());
         }
 
@@ -156,9 +153,23 @@ class Ball {
          * 
          * @param player 
          */
-        void moving(Player &player) {
+        void movingX(Player &player) {
             if (isMoving() == true) {
-                sprite.move(dx, dy);
+                sprite.move(dx, 0);
+                collision(player);
+            }
+            else
+                sprite.setPosition(player.getX() + player.getW()/2 - 6, player.getY() - player.getH()/2 - 4);
+        }
+
+        /**
+         * @brief Allow to make move the ball in the game
+         * 
+         * @param player 
+         */
+        void movingY(Player &player) {
+            if (isMoving() == true) {
+                sprite.move(0, dy);
                 collision(player);
             }
             else
@@ -235,13 +246,6 @@ class Ball {
                         setDY(-dy - 1);
                     }
                 }
-                // //Affichage pour reglage :
-                //printf("colideX valeur = %d \n",collisionPointX);
-                // printf("DX : %d \n",dx);
-                // printf("Dy : %d \n",dy);
-                
-                //setDY(FORMULE DU TURFU)    
-                points += 1;
             }
         }
 
