@@ -20,6 +20,7 @@ int main() {
         }
         game.handleMoves(app);
         game.draw(app);
+        game.endOfGame();
     }
 
     return 0;

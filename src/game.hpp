@@ -30,6 +30,8 @@ class Game {
 
         int nbBricks;
         Brick *bricks;
+
+        bool stateOfGame;
     
     public:
         /**
@@ -41,6 +43,7 @@ class Game {
             balls = Ball();
 
             points = 0;
+            stateOfGame = true;
 
             fileToBricks();
         }
@@ -73,6 +76,14 @@ class Game {
          */
         Brick getBrick(int n) {
             return bricks[n];
+        }
+
+        bool getState() {
+            return stateOfGame;
+        }
+
+        void setState(bool b) {
+            stateOfGame = b;
         }
 
         /**
@@ -111,11 +122,14 @@ class Game {
          */
         void draw(sf::RenderWindow &app) {
             app.clear();
-            players.draw(app);
-
-            balls.draw(app);
-
-            drawBricks(app);
+            if (stateOfGame) {
+                players.draw(app);
+                balls.draw(app);
+                drawBricks(app);
+            } else {
+                printf("Vous avez gagné\n");
+                app.close();
+            }
 
             app.display();
         }
@@ -144,8 +158,6 @@ class Game {
 
                 bricks = new Brick[size];
 
-                std::cout << "size=" << size << std::endl;
-                std::cout << "nbBricks=" << nbBricks << std::endl;
                 int w = 0;
                 int h = 0;
                 int n = 0;
@@ -197,7 +209,13 @@ class Game {
         }
 
         bool collision(sf::Sprite sprite1, sf::Sprite sprite2) {
-            return sprite1.getGlobalBounds().intersects(sprite2.getGlobalBounds());
+
+            if (sprite1.getGlobalBounds().intersects(sprite2.getGlobalBounds())) {
+                points++;
+                return true;
+            } else {
+                return false;
+            }
         }
 
         /**
@@ -218,7 +236,7 @@ class Game {
                     }
                     balls.setDX(-balls.getDX());
                     bricks[i].teleport();
-                    points++;
+                
                 }
             }
         }
@@ -241,8 +259,15 @@ class Game {
                     }
                     balls.setDY(-balls.getDY());
                     bricks[i].teleport();
-                    points++;
+                
                 }
+            }
+        }
+
+        void endOfGame() {
+            if (points == nbBricks) {
+                setState(false);
+                balls.setMoving(false);
             }
         }
 };

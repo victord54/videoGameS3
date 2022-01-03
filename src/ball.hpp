@@ -31,8 +31,8 @@ class Ball {
         Ball() {
             TexturesRect textRect = TexturesRect();
             
-            dx = 3;
-            dy = -3;
+            dx = 8;
+            dy = -6;
 
             move = false;
             texture.loadFromFile("ressources/brickBreaker_sprites.png", textRect.getBallRect());
@@ -186,6 +186,8 @@ class Ball {
   
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
                 setMoving(true);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
+                setMoving(false);
         }
 
         /**
