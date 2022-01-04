@@ -38,15 +38,10 @@ class Game {
          * @brief Construct a new Game object
          * 
          */
-        Game() {
+        Game(std::string s) {
             player = Player(WINDOW_X-200, WINDOW_Y-30);
             ball = Ball();
-            std::string s;
-            std::cout << "Saisissez votre nom : ";
-            std::cin >> s;
-
             player.setName(s);
-
             score = 0;
             scoreWrited = false;
             stateOfGame = true;
