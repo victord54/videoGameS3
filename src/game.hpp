@@ -147,8 +147,8 @@ class Game {
                 sf::Sprite sprite;
                 sprite.setTexture(textureGameOver);
                 app.draw(sprite);
+                printScoreToScreen(app);
             }
-
             app.display();
         }
 
@@ -156,6 +156,35 @@ class Game {
             FichierIO fichier = FichierIO("ressources/leaderboard.txt");
             fichier.ecrire(player.getName(), getScore());
             scoreWrited = true;
+        }
+
+        std::string getNameAndScore() {
+            return "" + player.getName() + " " + std::to_string(score);
+        }
+
+        void printScoreToScreen(sf::RenderWindow &app) {
+            sf::Font font;
+
+            if (font.loadFromFile("ressources/UniversCondensed.ttf")) {
+                sf::Text text;
+                FichierIO fichier("ressources/leaderboard.txt");
+
+                text.setFont(font);;
+                std::string s;
+                int nb = fichier.getLineMax();
+                for (int i = 0; i < nb; i++) {
+                    s.append(fichier.lire(i));
+                    s.append("\n");
+                }
+                text.setString(s);
+                text.setCharacterSize(35);
+                text.setFillColor(sf::Color::Red);
+                text.setStyle(sf::Text::Bold);
+
+                app.draw(text);
+            } else {
+                std::cout << "Erreur chargement police" << std::endl;
+            }
         }
 
         /**

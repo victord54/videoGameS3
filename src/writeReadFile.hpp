@@ -20,7 +20,7 @@ class FichierIO {
 			}
 		}
 
-		void lire(int line) {
+		std::string lire(int line) {
 			std::ifstream file(str);
 			if (file) {
 				std::string name;
@@ -31,13 +31,30 @@ class FichierIO {
 					file >> name;
 				}
 				file >> name;
-				std::cout << name;
 				file >> tmp;
 				score = std::stoi(tmp);
-				std::cout << " : " << score << std::endl;
+				std::string s;
+				s.append(name + " : " + std::to_string(score));
+				return s;
+
 			} else {
 				std::cout << "Erreur ouverture fichier" << std::endl;
+				return 0;
 			}
+		}
+
+		int getLineMax() {
+			std::ifstream file(str);
+			int nbLignes = 0;
+			std::string ligne;
+
+			if (file) {
+				while (std::getline(file, ligne)) {
+					nbLignes++;
+				}
+			}
+			file.close();
+			return nbLignes;
 		}
 };
 
