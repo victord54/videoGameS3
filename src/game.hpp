@@ -13,6 +13,7 @@
 #include "ball.hpp"
 #include "brick.hpp"
 #include "menu.hpp"
+#include "writeReadFile.hpp"
 
 /**
  * @brief Class that manages what is related to the game itself
@@ -20,13 +21,12 @@
  */
 class Game {
     private:
-        int nbPlayers;
-        Player players;
+        Player player;
 
-        int points;
+        int score;
+        bool scoreWrited;
 
-        int nbBalls;
-        Ball balls;
+        Ball ball;
 
         int nbBricks;
         Brick *bricks;
@@ -39,10 +39,16 @@ class Game {
          * 
          */
         Game() {
-            players = Player(WINDOW_X-200, WINDOW_Y-30);
-            balls = Ball();
+            player = Player(WINDOW_X-200, WINDOW_Y-30);
+            ball = Ball();
+            std::string s;
+            std::cout << "Saisissez votre nom : ";
+            std::cin >> s;
 
-            points = 0;
+            player.setName(s);
+
+            score = 0;
+            scoreWrited = false;
             stateOfGame = true;
 
             fileToBricks();
@@ -54,8 +60,8 @@ class Game {
          * @param n 
          * @return Player 
          */
-        Player getPlayer(int n) {
-            return players;
+        Player getPlayer() {
+            return player;
         }
 
         /**
@@ -64,8 +70,17 @@ class Game {
          * @param n 
          * @return Ball 
          */
-        Ball getBall(int n) {
-            return balls;
+        Ball getBall() {
+            return ball;
+        }
+
+        /**
+         * @brief Get the Score object
+         * 
+         * @return int 
+         */
+        int getScore() {
+            return score;
         }
 
         /**
@@ -92,15 +107,15 @@ class Game {
          * @param app
          */
         void handleMoves(sf::RenderWindow &app) {
-            players.handleMoves(app);
+            player.handleMoves(app);
 
-            balls.handleKeyboard(app);
-            balls.collision(players);
+            ball.handleKeyboard(app);
+            ball.collision(player);
             
-            balls.movingX(players);
+            ball.movingX(player);
             collisionX();
 
-            balls.movingY(players);
+            ball.movingY(player);
             collisionY();
         }
 
@@ -123,8 +138,8 @@ class Game {
         void draw(sf::RenderWindow &app) {
             app.clear();
             if (stateOfGame) {
-                players.draw(app);
-                balls.draw(app);
+                player.draw(app);
+                ball.draw(app);
                 drawBricks(app);
             } else {
                 sf::Texture textureGameOver;
@@ -135,6 +150,12 @@ class Game {
             }
 
             app.display();
+        }
+
+        void setScoreToFile() {
+            FichierIO fichier = FichierIO("ressources/leaderboard.txt");
+            fichier.ecrire(player.getName(), getScore());
+            scoreWrited = true;
         }
 
         /**
@@ -214,7 +235,7 @@ class Game {
         bool collision(sf::Sprite sprite1, sf::Sprite sprite2) {
 
             if (sprite1.getGlobalBounds().intersects(sprite2.getGlobalBounds())) {
-                points++;
+                score++;
                 return true;
             } else {
                 return false;
@@ -227,17 +248,17 @@ class Game {
          */
         void collisionX() {
             for (int i = 0; i <nbBricks; i++) {
-                if (collision(bricks[i].getSprite(), balls.getSprite())) {
+                if (collision(bricks[i].getSprite(), ball.getSprite())) {
                     if (i < nbBricks - 1) {
-                        if (collision(bricks[i+1].getSprite(), balls.getSprite())) {
+                        if (collision(bricks[i+1].getSprite(), ball.getSprite())) {
                             continue;
                         }
                     } else if (i > 0) {
-                        if (collision(bricks[i-1].getSprite(), balls.getSprite())) {
+                        if (collision(bricks[i-1].getSprite(), ball.getSprite())) {
                             continue;
                         }
                     }
-                    balls.setDX(-balls.getDX());
+                    ball.setDX(-ball.getDX());
                     bricks[i].teleport();
                 
                 }
@@ -250,17 +271,17 @@ class Game {
          */
         void collisionY() {
             for (int i = 0; i <nbBricks; i++) {
-                if (collision(bricks[i].getSprite(), balls.getSprite())) {
+                if (collision(bricks[i].getSprite(), ball.getSprite())) {
                     if (i < nbBricks - 1) {
-                        if (collision(bricks[i+1].getSprite(), balls.getSprite())) {
+                        if (collision(bricks[i+1].getSprite(), ball.getSprite())) {
                             continue;
                         }
                     } else if (i > 0) {
-                        if (collision(bricks[i-1].getSprite(), balls.getSprite())) {
+                        if (collision(bricks[i-1].getSprite(), ball.getSprite())) {
                             continue;
                         }
                     }
-                    balls.setDY(-balls.getDY());
+                    ball.setDY(-ball.getDY());
                     bricks[i].teleport();
                 
                 }
@@ -268,9 +289,11 @@ class Game {
         }
 
         void endOfGame() {
-            if (points == nbBricks) {
+            if (score == nbBricks) {
                 setState(false);
-                balls.setMoving(false);
+                ball.setMoving(false);
+                if (!scoreWrited)
+                    setScoreToFile();
             }
         }
 };

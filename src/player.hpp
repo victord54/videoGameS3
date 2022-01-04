@@ -14,6 +14,7 @@
  */
 class Player {
     private:
+        std::string name;
         bool deplacementSouris;
 
         sf::Texture texture;
@@ -40,6 +41,15 @@ class Player {
             deplacementSouris = false;
             sprite.setPosition(coordX, coordY);
             texture.loadFromFile("ressources/brickBreaker_sprites.png", textRect.getPlayerRect());
+        }
+
+        /**
+         * @brief Get the Name object
+         * 
+         * @return std::string 
+         */
+        std::string getName() {
+            return name;
         }
 
         /**
@@ -95,6 +105,15 @@ class Player {
          */
         sf::Sprite getSprite() {
             return sprite;
+        }
+
+        /**
+         * @brief Set the Name object
+         * 
+         * @param s 
+         */
+        void setName(std::string s) {
+            name = s;
         }
 
         /**

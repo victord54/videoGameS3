@@ -111,7 +111,6 @@ class Menu{
                     }
 
                     else if(choix == 2) {        //Si on est sur rules
-                        printf("%d\n",ruleOpen);
                         ruleOpen++;
                     }
                 }
