@@ -17,6 +17,7 @@ class Ball {
    private:
         int dx;
         int dy;
+        float life;
 
         bool move;
 
@@ -33,9 +34,27 @@ class Ball {
             
             dx = 8;
             dy = -6;
+            life = 3;
 
             move = false;
             texture.loadFromFile("ressources/brickBreaker_sprites.png", textRect.getBallRect());
+        }
+
+        /**
+         * @brief Get the nomber of remaining life
+         * 
+         * @return int 
+         */
+        int getLife() {
+            return life;
+        }
+
+        /**
+         * @brief Loose a life
+         * 
+         */
+        void lifeDown(){
+            life = life - 0.5;
         }
 
         /**
@@ -203,6 +222,7 @@ class Ball {
                 setDY(-dy);
             if (getY() >= WINDOW_Y - 16) { // Si la balle touche le mur du bas
                     setMoving(false);
+                    lifeDown();
                 }
             
             // Collision avec la plateforme (player)

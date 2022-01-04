@@ -114,7 +114,7 @@ class Menu{
                         ruleOpen++;
                     }
                 }
-                else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
+                else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::Z)){
                     if(choix == 0 || choix == 1){
                         choix++;
                     }
@@ -123,7 +123,7 @@ class Menu{
                     }
                 }
 
-                else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
+                else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)|| sf::Keyboard::isKeyPressed(sf::Keyboard::S)){
                     if(choix == 2 || choix == 1){
                         choix --;
                     }

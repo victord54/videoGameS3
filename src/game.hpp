@@ -141,6 +141,7 @@ class Game {
                 player.draw(app);
                 ball.draw(app);
                 drawBricks(app);
+                printLifeToScreen(app);
             } else {
                 sf::Texture textureGameOver;
                 textureGameOver.loadFromFile("ressources/gameoverscreen.png");
@@ -169,7 +170,7 @@ class Game {
                 sf::Text text;
                 FichierIO fichier("ressources/leaderboard.txt");
 
-                text.setFont(font);;
+                text.setFont(font);
                 std::string s;
                 int nb = fichier.getLineMax();
                 for (int i = 0; i < nb; i++) {
@@ -183,6 +184,28 @@ class Game {
 
                 app.draw(text);
             } else {
+                std::cout << "Erreur chargement police" << std::endl;
+            }
+        }
+
+        void printLifeToScreen(sf::RenderWindow &app){
+            sf::Font font;
+            if (font.loadFromFile("ressources/lettre.TTF")){
+                sf::Text text;
+                std::string s;
+
+                text.setFont(font);
+                int nb = ball.getLife();
+                s.append("Vie:");
+                s.append(std::to_string(nb));
+                text.setString(s);
+                text.setCharacterSize(35);
+                text.setFillColor(sf::Color::Green);
+                text.setStyle(sf::Text::Bold);
+                text.setPosition(650,5);
+                app.draw(text);
+            }
+            else{
                 std::cout << "Erreur chargement police" << std::endl;
             }
         }
@@ -323,6 +346,10 @@ class Game {
                 ball.setMoving(false);
                 if (!scoreWrited)
                     setScoreToFile();
+            }
+            else if(ball.getLife() == 0){
+                setState(false);
+                ball.setMoving(false);
             }
         }
 };
