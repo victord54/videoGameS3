@@ -27,6 +27,7 @@ class Menu{
     sf::Sprite spriteRulesScreen;
     int ruleOpen = 0;
 
+
     int menuUpdate;
     int choix;
     

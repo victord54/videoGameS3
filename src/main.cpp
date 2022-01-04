@@ -10,8 +10,8 @@ int main() {
     sf::RenderWindow app(sf::VideoMode(WINDOW_X, WINDOW_Y), "Brick Breaker");
     app.setFramerateLimit(60);
 
-    Menu menu = Menu();
     Game game = Game();
+    Menu menu = Menu();
 
     while (app.isOpen()) {
         while(menu.getMenuUpdate() == 1) {
